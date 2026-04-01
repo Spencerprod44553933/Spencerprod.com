@@ -1,0 +1,43 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Cyber" description="Cyber and technical projects — Spencerprod portfolio.">
+	<p class="eyebrow">Cyber projects</p>
+	<h1>Security, code, and systems</h1>
+	<p class="section-lede">
+		Highlight repos, writeups, CTF notes, or tools here. Replace this copy with your real project cards or links.
+	</p>
+
+	<section class="content-block">
+		<h2>Featured</h2>
+		<p>
+			Add project titles, short descriptions, and links to GitHub or demos. You can later split this into components or
+			a content collection if the list grows.
+		</p>
+	</section>
+</Layout>
+
+<style>
+	.eyebrow {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		font-weight: 500;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--accent);
+		margin: 0 0 0.75rem;
+	}
+
+	.content-block {
+		margin-top: 2rem;
+		padding: 1.5rem;
+		border-radius: 10px;
+		border: 1px solid var(--border);
+		background: color-mix(in srgb, var(--surface) 75%, transparent);
+	}
+
+	.content-block h2 {
+		margin-top: 0;
+	}
+</style>
