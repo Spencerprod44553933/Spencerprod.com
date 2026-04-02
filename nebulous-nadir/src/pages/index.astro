@@ -15,22 +15,22 @@ const base = import.meta.env.BASE_URL;
 	</section>
 
 	<section class="grid">
-		<a class="card" href={`${base}cyber`}>
+		<a class="card" href={sectionUrl(base, 'cyber')}>
 			<span class="card-label">01</span>
 			<h2>Cyber</h2>
 			<p>Security, tooling, and technical projects.</p>
 		</a>
-		<a class="card" href={`${base}music`}>
+		<a class="card" href={sectionUrl(base, 'music')}>
 			<span class="card-label">02</span>
 			<h2>Music</h2>
 			<p>Releases, mixes, and what you are listening to or making.</p>
 		</a>
-		<a class="card" href={`${base}sports`}>
+		<a class="card" href={sectionUrl(base, 'blog')}>
 			<span class="card-label">03</span>
-			<h2>Sports</h2>
-			<p>Essays and updates from the sports blog.</p>
+			<h2>Blog</h2>
+			<p>Sports writing and updates.</p>
 		</a>
-		<a class="card" href={`${base}photography`}>
+		<a class="card" href={sectionUrl(base, 'photography')}>
 			<span class="card-label">04</span>
 			<h2>Photo</h2>
 			<p>Galleries and still work.</p>
