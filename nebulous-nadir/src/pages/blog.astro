@@ -1,16 +1,57 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const base = import.meta.env.BASE_URL;
+
+const teams = [
+	{ name: 'Liverpool FC', league: 'Premier League', file: 'liverpool.png' },
+	{ name: 'Paris Saint-Germain', league: 'Ligue 1', file: 'psg.svg' },
+	{ name: 'Bayern Munich', league: 'Bundesliga', file: 'bayern.svg' },
+	{ name: 'Club América', league: 'Liga MX', file: 'club-america.svg' },
+	{ name: 'AS Roma', league: 'Serie A', file: 'roma.svg' },
+	{ name: 'FC Barcelona', league: 'La Liga', file: 'barcelona.svg' },
+	{ name: 'Texas Rangers', league: 'MLB', file: 'rangers.svg' },
+	{ name: 'Dallas Mavericks', league: 'NBA', file: 'mavericks.svg' },
+	{ name: 'Scuderia Ferrari', league: 'Formula 1', file: 'ferrari.svg' },
+	{ name: 'Green Bay Packers', league: 'NFL', file: 'packers.svg' },
+] as const;
 ---
 
-<Layout title="Blog" description="Sports blog — Spencerprod portfolio.">
+<Layout title="Blog" description="Sports blog — teams, notes, and writing. Spencerprod.">
 	<p class="section-eyebrow">Blog</p>
 	<h1>Sports & writing</h1>
 	<p class="section-lede">
-		Short posts, game notes, and opinions. These entries are fake copy so the page feels full—replace with real Markdown posts or a CMS later.
+		Short posts, game notes, and opinions. Below are clubs and teams you follow—swap logos or add more anytime.
 	</p>
 
+	<h2 class="ph-block-title">Teams & clubs</h2>
+	<p class="team-logo-note">
+		Most marks are from <a href="https://commons.wikimedia.org/">Wikimedia Commons</a> (free-licensed media). The Ferrari mark
+		is from <a href="https://simpleicons.org/">Simple Icons</a> (CC0). Club América and AS Roma use simple color placeholders here—replace
+		with official crests if you have rights to use them.
+	</p>
+	<div class="team-logo-grid">
+		{
+			teams.map(({ name, league, file }) => (
+				<div class="team-logo-item">
+					<img
+						src={`${base}logos/${file}`}
+						alt={`${name} logo`}
+						width="72"
+						height="48"
+						loading="lazy"
+						decoding="async"
+					/>
+					<p class="team-name">{name}</p>
+					<p class="team-league">{league}</p>
+				</div>
+			))
+		}
+	</div>
+
 	<p class="ph-callout">
-		<strong>Placeholder posts.</strong> In Astro you can use a <code>content</code> collection so each article is its own file under <code>src/content/blog/</code>.
+		<strong>Placeholder posts.</strong> In Astro you can use a <code>content</code> collection so each article is its own file under{' '}
+		<code>src/content/blog/</code>.
 	</p>
 
 	<section aria-label="Sample posts">

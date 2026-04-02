@@ -1,5 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { sectionUrl } from '../lib/paths';
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <Layout title="Music" description="Music — Spencerprod portfolio.">
@@ -11,6 +14,9 @@ import Layout from '../layouts/Layout.astro';
 
 	<p class="ph-callout">
 		<strong>Placeholder content.</strong> Embed Bandcamp, SoundCloud, or Spotify iframes here, or link out to streaming pages.
+		<span class="music-blog-prompt">
+			For opinions on albums, singles, and EPs—see the <a href={sectionUrl(base, 'music/blog')}>music blog</a>.
+		</span>
 	</p>
 
 	<h2 class="ph-block-title">Releases</h2>
@@ -36,3 +42,12 @@ import Layout from '../layouts/Layout.astro';
 		<li>Gear or plugins you are experimenting with</li>
 	</ul>
 </Layout>
+
+<style>
+	.music-blog-prompt {
+		display: block;
+		margin-top: 0.75rem;
+		padding-top: 0.75rem;
+		border-top: 1px solid var(--border);
+	}
+</style>

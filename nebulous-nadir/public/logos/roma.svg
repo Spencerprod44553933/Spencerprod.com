@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="AS Roma stylized monogram">
+	<title>AS Roma inspired colors</title>
+	<rect width="120" height="120" rx="12" fill="#8E1F2F"/>
+	<rect x="12" y="12" width="96" height="96" rx="8" fill="none" stroke="#F0BC42" stroke-width="4"/>
+	<text x="60" y="78" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="36" fill="#F0BC42">ASR</text>
+</svg>

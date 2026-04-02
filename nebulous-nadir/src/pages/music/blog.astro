@@ -1,0 +1,50 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { sectionUrl } from '../../lib/paths';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<Layout
+	title="Music blog"
+	description="Opinions on albums, singles, and EPs — artists and bands. Spencerprod."
+>
+	<p class="section-eyebrow">Music blog</p>
+	<h1>Albums, singles & EPs</h1>
+	<p class="section-lede">
+		My take on records I care about—full albums, one-off singles, and shorter EPs. Honest reactions, favorite tracks, and
+		what I’d tell a friend before they hit play.
+	</p>
+
+	<p class="ph-callout">
+		<strong>Placeholder posts below.</strong> Swap in real artists and titles. This section is only opinions on music—not
+		gear or studio how-tos. Jump back to <a href={sectionUrl(base, 'music')}>your own releases</a> anytime.
+	</p>
+
+	<section aria-label="Sample music posts">
+		<article class="ph-post">
+			<p class="ph-post-meta">March 18, 2026 · Album</p>
+			<h3>[Artist name] — full LP first listen</h3>
+			<p>
+				Placeholder: what the band does well on this record, the song that won you over, and whether the back half holds
+				up. Rate it or don’t—just say what you felt.
+			</p>
+		</article>
+		<article class="ph-post">
+			<p class="ph-post-meta">March 11, 2026 · Single</p>
+			<h3>That new single from [band]</h3>
+			<p>
+				Short opinion piece: hook vs. verses, production choices that help or hurt, and if it makes you want the album
+				or leaves you cold.
+			</p>
+		</article>
+		<article class="ph-post">
+			<p class="ph-post-meta">March 3, 2026 · EP</p>
+			<h3>[Artist]’s EP — too short or just right?</h3>
+			<p>
+				Placeholder for a 4–6 track drop: cohesion, standouts, weak spots, and how it compares to their last project if
+				you know it.
+			</p>
+		</article>
+	</section>
+</Layout>
