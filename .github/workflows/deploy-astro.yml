@@ -28,11 +28,15 @@ jobs:
           cache: npm
           cache-dependency-path: nebulous-nadir/package-lock.json
 
+      # Base path must match the GitHub Pages project URL: https://<owner>.github.io/<repo>/
+      # Optional repo Variables (Settings → Secrets and variables → Actions → Variables):
+      #   PAGES_BASE_PATH — e.g. / for a custom domain at site root, or leave unset to use /{repo}/
+      #   PAGES_SITE_URL — e.g. https://yourdomain.com when using a custom domain
       - name: Install and build
         working-directory: nebulous-nadir
         env:
-          BASE_PATH: /Spencerprod.com/
-          SITE_URL: https://spencerprod44553933.github.io
+          BASE_PATH: ${{ vars.PAGES_BASE_PATH || format('/{0}/', github.event.repository.name) }}
+          SITE_URL: ${{ vars.PAGES_SITE_URL || format('https://{0}.github.io', github.repository_owner) }}
         run: npm ci && npm run build
 
       - name: Upload Pages artifact
