@@ -28,17 +28,19 @@ jobs:
           cache: npm
           cache-dependency-path: nebulous-nadir/package-lock.json
 
-      # BASE_PATH must match where the browser loads the site from:
-      # - Custom domain (e.g. spencerprod.com) → site is at DOMAIN ROOT → use BASE_PATH=/
-      # - Default only: https://<owner>.github.io/<repo>/ → set var PAGES_BASE_PATH=/<repo>/
+      # BASE_PATH must match the URL path where the site is served (Astro `base`):
+      # - Custom domain at domain root (e.g. https://spencerprod.com/) → BASE_PATH=/
+      # - Project Pages default URL → https://<owner>.github.io/<repo>/ → BASE_PATH=/<repo>/
       #
-      # Repo Variables (Settings → Secrets and variables → Actions → Variables):
-      #   PAGES_SITE_URL — required for custom domain: https://spencerprod.com (no trailing slash ok)
-      #   PAGES_BASE_PATH — only if you use github.io URL without custom domain: /YourRepoName/
+      # If BASE_PATH is wrong, the home page may load but every nav link 404s (e.g. /cyber/ instead of /RepoName/cyber/).
+      #
+      # Repo Variables (Settings → Secrets and variables → Actions → Variables), optional overrides:
+      #   PAGES_SITE_URL — e.g. https://spencerprod.com (when set, we default BASE_PATH to / unless you set PAGES_BASE_PATH)
+      #   PAGES_BASE_PATH — force base, e.g. / or /YourRepoName/
       - name: Install and build
         working-directory: nebulous-nadir
         env:
-          BASE_PATH: ${{ vars.PAGES_BASE_PATH || '/' }}
+          BASE_PATH: ${{ vars.PAGES_BASE_PATH != '' && vars.PAGES_BASE_PATH || (vars.PAGES_SITE_URL != '' && '/') || format('/{0}/', github.event.repository.name) }}
           SITE_URL: ${{ vars.PAGES_SITE_URL || format('https://{0}.github.io/{1}/', github.repository_owner, github.event.repository.name) }}
         run: npm ci && npm run build
 
