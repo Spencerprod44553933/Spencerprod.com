@@ -3,38 +3,36 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Music" description="Music — Spencerprod portfolio.">
-	<p class="eyebrow">Music</p>
+	<p class="section-eyebrow">Music</p>
 	<h1>Sound and releases</h1>
 	<p class="section-lede">
-		Embed players, link to Bandcamp or Spotify, or list tracks and projects. This page is ready for your content.
+		Share EPs, mixes, and what you are building in the DAW. The blocks below are stand-ins for artwork, players, and credits.
 	</p>
 
-	<section class="content-block">
-		<h2>Now playing</h2>
-		<p>Drop in embeds or a playlist section when you are ready.</p>
-	</section>
+	<p class="ph-callout">
+		<strong>Placeholder content.</strong> Embed Bandcamp, SoundCloud, or Spotify iframes here, or link out to streaming pages.
+	</p>
+
+	<h2 class="ph-block-title">Releases</h2>
+	<div class="ph-row">
+		<div class="ph-visual ph-visual--square" aria-hidden="true"></div>
+		<div class="ph-row-body">
+			<h3>Untitled EP — 2026</h3>
+			<p>Track list, genre, and one sentence about how it was made. Add cover art image when you have assets.</p>
+		</div>
+	</div>
+	<div class="ph-row">
+		<div class="ph-visual ph-visual--square" aria-hidden="true"></div>
+		<div class="ph-row-body">
+			<h3>Live set recording</h3>
+			<p>Placeholder for a mix or show notes: venue, date, gear list, or link to a full recording.</p>
+		</div>
+	</div>
+
+	<h2 class="ph-block-title">Now listening</h2>
+	<ul class="ph-list">
+		<li>Album or artist you want to shout out</li>
+		<li>Playlist theme (e.g. late-night production, focus)</li>
+		<li>Gear or plugins you are experimenting with</li>
+	</ul>
 </Layout>
-
-<style>
-	.eyebrow {
-		font-family: var(--font-mono);
-		font-size: 0.75rem;
-		font-weight: 500;
-		letter-spacing: 0.2em;
-		text-transform: uppercase;
-		color: var(--accent);
-		margin: 0 0 0.75rem;
-	}
-
-	.content-block {
-		margin-top: 2rem;
-		padding: 1.5rem;
-		border-radius: 10px;
-		border: 1px solid var(--border);
-		background: color-mix(in srgb, var(--surface) 75%, transparent);
-	}
-
-	.content-block h2 {
-		margin-top: 0;
-	}
-</style>
