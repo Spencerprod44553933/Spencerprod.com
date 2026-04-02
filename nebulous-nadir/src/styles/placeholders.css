@@ -201,3 +201,54 @@ main code {
 	background: var(--surface);
 	border: 1px solid var(--border);
 }
+
+.team-logo-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+	gap: 0.65rem;
+	margin: 1.25rem 0 2rem;
+}
+
+.team-logo-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	gap: 0.45rem;
+	padding: 0.65rem 0.5rem;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	background: var(--surface);
+}
+
+.team-logo-item img {
+	height: 40px;
+	width: auto;
+	max-width: 100%;
+	object-fit: contain;
+}
+
+.team-logo-item .team-name {
+	font-family: var(--font-display);
+	font-weight: 700;
+	font-size: 0.95rem;
+	margin: 0;
+	line-height: 1.2;
+}
+
+.team-logo-item .team-league {
+	font-family: var(--font-mono);
+	font-size: 0.6rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #4a4a4a;
+	margin: 0;
+}
+
+.team-logo-note {
+	font-size: 0.8125rem;
+	line-height: 1.5;
+	color: var(--text);
+	opacity: 0.85;
+	margin-top: 0.5rem;
+}

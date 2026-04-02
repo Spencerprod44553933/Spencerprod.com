@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Club América stylized crest">
+	<title>Club América inspired colors</title>
+	<rect width="120" height="120" rx="12" fill="#0B4F9C"/>
+	<path d="M12 52h96v28H12z" fill="#F7D117"/>
+	<circle cx="60" cy="66" r="22" fill="#0B4F9C" stroke="#F7D117" stroke-width="3"/>
+	<text x="60" y="74" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="800" font-size="18" fill="#F7D117">CA</text>
+</svg>

@@ -7,6 +7,7 @@ const links = [
 	{ href: sectionUrl(base, ''), label: 'Home' },
 	{ href: sectionUrl(base, 'cyber'), label: 'Cyber' },
 	{ href: sectionUrl(base, 'music'), label: 'Music' },
+	{ href: sectionUrl(base, 'music/blog'), label: 'Music blog' },
 	{ href: sectionUrl(base, 'blog'), label: 'Blog' },
 	{ href: sectionUrl(base, 'photography'), label: 'Photo' },
 ] as const;
@@ -17,12 +18,24 @@ function normalizePath(pathname: string) {
 }
 
 const currentPath = normalizePath(Astro.url.pathname);
+const homePath = normalizePath(new URL(base, Astro.url).pathname);
+
+/** Longest URL path wins so /music/blog/ does not also highlight /music/. */
+const linksWithTargets = [...links]
+	.map((link) => ({
+		...link,
+		target: normalizePath(new URL(link.href, Astro.url).pathname),
+	}))
+	.sort((a, b) => b.target.length - a.target.length);
+
+const activeHref =
+	linksWithTargets.find(({ target }) => {
+		if (target === homePath) return currentPath === homePath;
+		return currentPath === target || currentPath.startsWith(`${target}/`);
+	})?.href ?? null;
 
 function isActive(href: string) {
-	const target = normalizePath(new URL(href, Astro.url).pathname);
-	const homePath = normalizePath(new URL(base, Astro.url).pathname);
-	if (target === homePath) return currentPath === homePath;
-	return currentPath === target || currentPath.startsWith(`${target}/`);
+	return href === activeHref;
 }
 ---
 
