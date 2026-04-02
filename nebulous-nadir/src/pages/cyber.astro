@@ -3,41 +3,54 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Cyber" description="Cyber and technical projects — Spencerprod portfolio.">
-	<p class="eyebrow">Cyber projects</p>
+	<p class="section-eyebrow">Cyber projects</p>
 	<h1>Security, code, and systems</h1>
 	<p class="section-lede">
-		Highlight repos, writeups, CTF notes, or tools here. Replace this copy with your real project cards or links.
+		A home for labs, tooling, and writeups. Below is sample layout—drop in repos, demos, and case studies when you are ready.
 	</p>
 
-	<section class="content-block">
-		<h2>Featured</h2>
-		<p>
-			Add project titles, short descriptions, and links to GitHub or demos. You can later split this into components or
-			a content collection if the list grows.
-		</p>
-	</section>
+	<p class="ph-callout">
+		<strong>Placeholder content.</strong> Replace these cards with real project titles, screenshots, and links to GitHub or live demos.
+	</p>
+
+	<h2 class="ph-block-title">Featured work</h2>
+	<div class="ph-grid">
+		<article class="ph-card">
+			<div class="ph-pills">
+				<span class="ph-pill">Lab</span>
+				<span class="ph-pill">Network</span>
+			</div>
+			<h3>Home network segmentation</h3>
+			<p>
+				Example blurb: VLAN layout, firewall rules, and how you document changes. Swap this for your own project summary.
+			</p>
+		</article>
+		<article class="ph-card">
+			<div class="ph-pills">
+				<span class="ph-pill">Write-up</span>
+				<span class="ph-pill">CTF</span>
+			</div>
+			<h3>Challenge: “Locker” walkthrough</h3>
+			<p>
+				Placeholder for a CTF or bug-bounty style post—tools used, key insight, and what you learned.
+			</p>
+		</article>
+		<article class="ph-card">
+			<div class="ph-pills">
+				<span class="ph-pill">Tooling</span>
+				<span class="ph-pill">WIP</span>
+			</div>
+			<h3>CLI helper: log tail + filter</h3>
+			<p>
+				Short pitch for a script or app you built. Link to <code>README</code> or a demo recording when you publish it.
+			</p>
+		</article>
+	</div>
+
+	<h2 class="ph-block-title">Stack & focus (sample)</h2>
+	<ul class="ph-list">
+		<li>Linux, scripting, and automation</li>
+		<li>Defensive tooling and logging</li>
+		<li>Secure defaults for personal infrastructure</li>
+	</ul>
 </Layout>
-
-<style>
-	.eyebrow {
-		font-family: var(--font-mono);
-		font-size: 0.75rem;
-		font-weight: 500;
-		letter-spacing: 0.2em;
-		text-transform: uppercase;
-		color: var(--accent);
-		margin: 0 0 0.75rem;
-	}
-
-	.content-block {
-		margin-top: 2rem;
-		padding: 1.5rem;
-		border-radius: 10px;
-		border: 1px solid var(--border);
-		background: color-mix(in srgb, var(--surface) 75%, transparent);
-	}
-
-	.content-block h2 {
-		margin-top: 0;
-	}
-</style>

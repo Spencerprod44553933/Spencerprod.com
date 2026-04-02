@@ -3,48 +3,41 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Photography" description="Photography — Spencerprod portfolio.">
-	<p class="eyebrow">Photography</p>
+	<p class="section-eyebrow">Photography</p>
 	<h1>Frames and light</h1>
 	<p class="section-lede">
-		Add image grids or galleries below. For performance, use Astro’s <code>Image</code> component with optimized assets
-		when you drop in real photos.
+		Galleries and personal work. Gray tiles below are stand-ins—swap them for real images with Astro’s <code>Image</code> component when you export JPEGs or WebP.
 	</p>
 
-	<section class="content-block">
-		<h2>Gallery</h2>
-		<p>Placeholder for your photography grid. Consider a simple CSS grid of thumbnails linking to larger views.</p>
-	</section>
+	<p class="ph-callout">
+		<strong>Placeholder grid.</strong> Put files in <code>src/assets/photos/</code> (or similar), then map over them or hand-place each shot with alt text.
+	</p>
+
+	<h2 class="ph-block-title">Selected work</h2>
+	<div class="ph-grid">
+		<figure class="ph-card">
+			<div class="ph-visual ph-visual--square" aria-hidden="true"></div>
+			<figcaption class="ph-caption">Street — morning light</figcaption>
+		</figure>
+		<figure class="ph-card">
+			<div class="ph-visual ph-visual--square" aria-hidden="true"></div>
+			<figcaption class="ph-caption">Portrait study</figcaption>
+		</figure>
+		<figure class="ph-card">
+			<div class="ph-visual ph-visual--square" aria-hidden="true"></div>
+			<figcaption class="ph-caption">Landscape, 35mm</figcaption>
+		</figure>
+		<figure class="ph-card">
+			<div class="ph-visual ph-visual--square" aria-hidden="true"></div>
+			<figcaption class="ph-caption">Event / crowd</figcaption>
+		</figure>
+		<figure class="ph-card">
+			<div class="ph-visual ph-visual--square" aria-hidden="true"></div>
+			<figcaption class="ph-caption">Still life</figcaption>
+		</figure>
+		<figure class="ph-card">
+			<div class="ph-visual ph-visual--square" aria-hidden="true"></div>
+			<figcaption class="ph-caption">Night exposure</figcaption>
+		</figure>
+	</div>
 </Layout>
-
-<style>
-	.eyebrow {
-		font-family: var(--font-mono);
-		font-size: 0.75rem;
-		font-weight: 500;
-		letter-spacing: 0.2em;
-		text-transform: uppercase;
-		color: var(--accent);
-		margin: 0 0 0.75rem;
-	}
-
-	.content-block {
-		margin-top: 2rem;
-		padding: 1.5rem;
-		border-radius: 10px;
-		border: 1px solid var(--border);
-		background: color-mix(in srgb, var(--surface) 75%, transparent);
-	}
-
-	.content-block h2 {
-		margin-top: 0;
-	}
-
-	code {
-		font-family: var(--font-mono);
-		font-size: 0.9em;
-		padding: 0.1em 0.35em;
-		border-radius: 4px;
-		background: color-mix(in srgb, var(--accent) 15%, var(--surface));
-		color: var(--text);
-	}
-</style>

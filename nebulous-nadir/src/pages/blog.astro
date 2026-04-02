@@ -3,41 +3,37 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Blog" description="Sports blog — Spencerprod portfolio.">
-	<p class="eyebrow">Blog</p>
+	<p class="section-eyebrow">Blog</p>
 	<h1>Sports & writing</h1>
 	<p class="section-lede">
-		Articles, match notes, and sports takes. Later you can move posts into Markdown files or a CMS.
+		Short posts, game notes, and opinions. These entries are fake copy so the page feels full—replace with real Markdown posts or a CMS later.
 	</p>
 
-	<section class="content-block">
-		<h2>Latest posts</h2>
-		<p>
-			When you add real posts, each can link to its own page or use an Astro content collection. This block is a
-			placeholder for now.
-		</p>
+	<p class="ph-callout">
+		<strong>Placeholder posts.</strong> In Astro you can use a <code>content</code> collection so each article is its own file under <code>src/content/blog/</code>.
+	</p>
+
+	<section aria-label="Sample posts">
+		<article class="ph-post">
+			<p class="ph-post-meta">March 15, 2026 · Game recap</p>
+			<h3>What changed after halftime</h3>
+			<p>
+				Sample lede: tempo, adjustments, and one player who shifted the floor. Your real post would open with a hook and 2–3 paragraphs.
+			</p>
+		</article>
+		<article class="ph-post">
+			<p class="ph-post-meta">March 8, 2026 · Opinion</p>
+			<h3>Stats I actually trust this season</h3>
+			<p>
+				Placeholder for a longer essay—define your terms, link to sources, and end with a clear takeaway for readers.
+			</p>
+		</article>
+		<article class="ph-post">
+			<p class="ph-post-meta">February 28, 2026 · Notebook</p>
+			<h3>Injury report and lineup guess</h3>
+			<p>
+				Example of a quick notebook-style update you might publish the morning of a game.
+			</p>
+		</article>
 	</section>
 </Layout>
-
-<style>
-	.eyebrow {
-		font-family: var(--font-mono);
-		font-size: 0.75rem;
-		font-weight: 500;
-		letter-spacing: 0.2em;
-		text-transform: uppercase;
-		color: var(--accent);
-		margin: 0 0 0.75rem;
-	}
-
-	.content-block {
-		margin-top: 2rem;
-		padding: 1.5rem;
-		border-radius: 10px;
-		border: 1px solid var(--border);
-		background: color-mix(in srgb, var(--surface) 75%, transparent);
-	}
-
-	.content-block h2 {
-		margin-top: 0;
-	}
-</style>
