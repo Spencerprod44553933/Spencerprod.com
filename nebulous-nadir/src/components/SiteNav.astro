@@ -1,12 +1,14 @@
 ---
+import { sectionUrl } from '../lib/paths';
+
 const base = import.meta.env.BASE_URL;
 
 const links = [
-	{ href: base, label: 'Home' },
-	{ href: `${base}cyber`, label: 'Cyber' },
-	{ href: `${base}music`, label: 'Music' },
-	{ href: `${base}sports`, label: 'Sports' },
-	{ href: `${base}photography`, label: 'Photography' },
+	{ href: sectionUrl(base, ''), label: 'Home' },
+	{ href: sectionUrl(base, 'cyber'), label: 'Cyber' },
+	{ href: sectionUrl(base, 'music'), label: 'Music' },
+	{ href: sectionUrl(base, 'blog'), label: 'Blog' },
+	{ href: sectionUrl(base, 'photography'), label: 'Photo' },
 ] as const;
 
 function normalizePath(pathname: string) {
