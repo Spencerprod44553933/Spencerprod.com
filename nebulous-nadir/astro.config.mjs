@@ -1,16 +1,18 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// BASE_PATH: Astro `base` for asset and nav URLs. Local dev: "/".
-// CI: GitHub Actions sets BASE_PATH from actions/configure-pages `base_path` (see deploy-astro.yml).
-// Override with repo variable PAGES_BASE_PATH if needed.
-let base = process.env.BASE_PATH || '/';
+// Production site (custom domain). CI can override with SITE_URL for github.io previews.
+const site = (process.env.SITE_URL || 'https://spencerprod.com').replace(/\/+$/, '');
+
+// GitHub Pages: use "/" at custom domain root. CI sets BASE_PATH from configure-pages for project URLs.
+let base = process.env.BASE_PATH;
+if (base === undefined || base === '') base = '/';
 if (base !== '/' && !base.endsWith('/')) base += '/';
-const site = process.env.SITE_URL || undefined;
 
 // https://astro.build/config
 export default defineConfig({
 	site,
 	base,
+	outDir: 'dist',
 	trailingSlash: 'always',
 });
