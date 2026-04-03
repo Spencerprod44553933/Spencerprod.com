@@ -1,11 +1,16 @@
 # GitHub Pages: https://docs.github.com/en/pages
 # Astro + Pages: https://docs.astro.build/en/guides/deploy/github/
+# Node 20 deprecation: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
 name: Deploy Astro site to GitHub Pages
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+
+# Run JavaScript actions on Node 24 (covers nested upload-artifact inside withastro/action until it pins v6+).
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 permissions:
   contents: read
@@ -25,13 +30,13 @@ jobs:
 
       - name: Configure GitHub Pages
         id: pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       # Custom domain (e.g. spencerprod.com): configure-pages yields base_path "" → BASE_PATH "/".
       # Project URL (github.io/repo): base_path "/RepoName" → Astro base "/RepoName/".
       # Optional repo Variables → Actions → Variables: PAGES_BASE_PATH, PAGES_SITE_URL
       - name: Install, build, and upload artifact
-        uses: withastro/action@v5
+        uses: withastro/action@v5.2.0
         with:
           path: nebulous-nadir
           node-version: 22
@@ -52,4 +57,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
