@@ -45,6 +45,9 @@ jobs:
           SITE_URL: ${{ vars.PAGES_SITE_URL != '' && vars.PAGES_SITE_URL || format('{0}/', steps.pages.outputs.base_url) }}
 
   deploy:
+    env:
+      # Ensures deploy-pages runs on Node 24 even if workflow-level env is skipped in edge cases.
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     permissions:
       contents: read
       pages: write
@@ -57,4 +60,5 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5
+        # v5.0.0 = Node 24 (not v4 / Node 20). Pin minor to avoid surprise tag moves.
+        uses: actions/deploy-pages@v5.0.0
