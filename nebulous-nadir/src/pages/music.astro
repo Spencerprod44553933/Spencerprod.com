@@ -1,8 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { sectionUrl } from '../lib/paths';
+import { YOUTUBE_CHANNEL_URL, YOUTUBE_RELEASES } from '../data/youtube-releases';
+import { SOUNDCLOUD_PROFILES } from '../data/soundcloud-profiles';
 
 const base = import.meta.env.BASE_URL;
+
+const releases = YOUTUBE_RELEASES.map((r) => ({
+	...r,
+	watchUrl: `https://www.youtube.com/watch?v=${r.videoId}`,
+	thumbUrl: `https://i.ytimg.com/vi/${r.videoId}/mqdefault.jpg`,
+	dateLabel: new Date(r.published).toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'short',
+		day: 'numeric',
+		timeZone: 'UTC',
+	}),
+}));
 ---
 
 <Layout title="My Music" description="Songs I made in my bedroom at weird hours. — Spencerprod.">
@@ -10,42 +24,238 @@ const base = import.meta.env.BASE_URL;
 	<h1>My Music</h1>
 	<p class="section-lede">Songs I made in my bedroom at weird hours.</p>
 
-	<p class="ph-callout">
-		<strong>Placeholder content.</strong> Embed Bandcamp, SoundCloud, or Spotify iframes here, or link out to streaming pages.
-		<span class="music-blog-prompt">
-			For opinions on albums, singles, and EPs—see the <a href={sectionUrl(base, 'music/blog')}>music blog</a>.
-		</span>
+	<p class="music-channel-cta">
+		<a class="music-channel-btn" href={YOUTUBE_CHANNEL_URL} target="_blank" rel="noopener noreferrer">
+			Spencer Prod on YouTube
+		</a>
+		<span class="music-channel-hint">All uploads, newest first — @spencerprod4939</span>
 	</p>
 
-	<h2 class="ph-block-title">Releases</h2>
-	<div class="ph-row">
-		<div class="ph-visual ph-visual--square" aria-hidden="true"></div>
-		<div class="ph-row-body">
-			<h3>Untitled EP — 2026</h3>
-			<p>Track list, genre, and one sentence about how it was made. Add cover art image when you have assets.</p>
-		</div>
-	</div>
-	<div class="ph-row">
-		<div class="ph-visual ph-visual--square" aria-hidden="true"></div>
-		<div class="ph-row-body">
-			<h3>Live set recording</h3>
-			<p>Placeholder for a mix or show notes: venue, date, gear list, or link to a full recording.</p>
-		</div>
-	</div>
-
-	<h2 class="ph-block-title">Now listening</h2>
-	<ul class="ph-list">
-		<li>Album or artist you want to shout out</li>
-		<li>Playlist theme (e.g. late-night production, focus)</li>
-		<li>Gear or plugins you are experimenting with</li>
+	<h2 class="ph-block-title">SoundCloud</h2>
+	<p class="music-sc-intro">More tracks and sketches live across these profiles:</p>
+	<ul class="music-sc-list">
+		{
+			SOUNDCLOUD_PROFILES.map(({ href, label }) => (
+				<li>
+					<a href={href} target="_blank" rel="noopener noreferrer">
+						soundcloud.com/{label}
+					</a>
+				</li>
+			))
+		}
 	</ul>
+
+	<p class="music-feed-note">
+		Below is every beat currently listed in YouTube’s public feed for the channel, in <strong>chronological order</strong> (oldest
+		to newest). The RSS feed only surfaces the <strong>15 most recent</strong> videos; older posts still live on the channel page
+		above.
+	</p>
+
+	<h2 class="ph-block-title">YouTube uploads</h2>
+	<ol class="music-yt-list">
+		{
+			releases.map((r) => (
+				<li class="music-yt-item">
+					<a class="music-yt-thumb-link" href={r.watchUrl} target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
+						<img src={r.thumbUrl} alt="" width="320" height="180" loading="lazy" decoding="async" class="music-yt-thumb" />
+					</a>
+					<div class="music-yt-body">
+						<p class="music-yt-date">{r.dateLabel}</p>
+						<h3 class="music-yt-title">
+							<a href={r.watchUrl} target="_blank" rel="noopener noreferrer">
+								{r.title}
+							</a>
+						</h3>
+						<p class="music-yt-watch">
+							<a href={r.watchUrl} target="_blank" rel="noopener noreferrer">
+								Watch on YouTube →
+							</a>
+						</p>
+					</div>
+				</li>
+			))
+		}
+	</ol>
+
+	<p class="music-blog-footer">
+		For record opinions and hot takes — <a href={sectionUrl(base, 'music/blog')}>Music blog</a>.
+	</p>
 </Layout>
 
 <style>
-	.music-blog-prompt {
+	.music-channel-cta {
+		margin: 1.75rem 0 1rem;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.5rem;
+	}
+
+	.music-channel-btn {
+		display: inline-block;
+		padding: 0.65rem 1.25rem;
+		border-radius: 8px;
+		font-family: var(--font-display);
+		font-weight: 700;
+		font-size: 1rem;
+		text-decoration: none;
+		color: var(--bg);
+		background: var(--accent);
+		border: 2px solid var(--accent);
+		transition:
+			opacity 0.15s ease,
+			transform 0.15s ease;
+	}
+
+	.music-channel-btn:hover {
+		opacity: 0.88;
+		transform: translateY(-1px);
+		text-decoration: none;
+	}
+
+	.music-channel-hint {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: #4a4a4a;
+	}
+
+	.music-sc-intro {
+		font-size: 0.9375rem;
+		line-height: 1.55;
+		margin: 0 0 0.75rem;
+		max-width: 48rem;
+	}
+
+	.music-sc-list {
+		margin: 0 0 2rem;
+		padding-left: 1.25rem;
+		line-height: 1.75;
+		font-size: 0.9375rem;
+	}
+
+	.music-sc-list a {
+		font-weight: 600;
+		word-break: break-word;
+	}
+
+	.music-feed-note {
+		font-size: 0.9375rem;
+		line-height: 1.55;
+		color: var(--text);
+		opacity: 0.9;
+		margin: 0 0 2rem;
+		max-width: 48rem;
+	}
+
+	.music-yt-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		counter-reset: yt;
+	}
+
+	.music-yt-item {
+		display: flex;
+		gap: 1.25rem;
+		align-items: flex-start;
+		margin-bottom: 2rem;
+		padding-bottom: 2rem;
+		border-bottom: 1px solid var(--border);
+		counter-increment: yt;
+		flex-wrap: wrap;
+	}
+
+	.music-yt-item:last-child {
+		border-bottom: none;
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
+
+	.music-yt-thumb-link {
+		flex: 0 0 auto;
+		line-height: 0;
+		border-radius: 8px;
+		overflow: hidden;
+		border: 1px solid var(--border);
+	}
+
+	.music-yt-thumb {
 		display: block;
-		margin-top: 0.75rem;
-		padding-top: 0.75rem;
+		width: 160px;
+		height: auto;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+	}
+
+	.music-yt-body {
+		flex: 1;
+		min-width: min(100%, 12rem);
+	}
+
+	.music-yt-date {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: #4a4a4a;
+		margin: 0 0 0.35rem;
+	}
+
+	.music-yt-date::before {
+		content: counter(yt) '. ';
+		font-weight: 600;
+		color: var(--text);
+	}
+
+	.music-yt-title {
+		font-family: var(--font-display);
+		font-size: 1.1rem;
+		font-weight: 700;
+		margin: 0 0 0.5rem;
+		letter-spacing: -0.02em;
+		line-height: 1.25;
+	}
+
+	.music-yt-title a {
+		color: var(--text);
+		text-decoration: none;
+	}
+
+	.music-yt-title a:hover {
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	.music-yt-watch {
+		margin: 0;
+		font-size: 0.875rem;
+	}
+
+	.music-yt-watch a {
+		font-weight: 600;
+	}
+
+	.music-blog-footer {
+		margin-top: 2.5rem;
+		padding-top: 1.5rem;
 		border-top: 1px solid var(--border);
+		font-size: 0.9375rem;
+	}
+
+	@media (max-width: 520px) {
+		.music-yt-item {
+			flex-direction: column;
+		}
+
+		.music-yt-thumb-link {
+			width: 100%;
+			max-width: 280px;
+		}
+
+		.music-yt-thumb {
+			width: 100%;
+		}
 	}
 </style>
