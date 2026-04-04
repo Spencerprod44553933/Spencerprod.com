@@ -41,8 +41,13 @@ jobs:
           path: nebulous-nadir
           node-version: 22
         env:
+          ASTRO_TELEMETRY_DISABLED: '1'
           BASE_PATH: ${{ vars.PAGES_BASE_PATH != '' && vars.PAGES_BASE_PATH || (steps.pages.outputs.base_path == '' && '/' || format('{0}/', steps.pages.outputs.base_path)) }}
           SITE_URL: ${{ vars.PAGES_SITE_URL != '' && vars.PAGES_SITE_URL || format('{0}/', steps.pages.outputs.base_url) }}
+          # Optional: full catalog at build time (see nebulous-nadir/.env.example). Empty secrets → fetch script uses YouTube fallback + skips SoundCloud.
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          SOUNDCLOUD_CLIENT_ID: ${{ secrets.SOUNDCLOUD_CLIENT_ID }}
+          YOUTUBE_CHANNEL_ID: ${{ vars.YOUTUBE_CHANNEL_ID }}
 
   deploy:
     env:

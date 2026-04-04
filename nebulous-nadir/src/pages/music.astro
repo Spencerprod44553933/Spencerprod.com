@@ -1,22 +1,41 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { sectionUrl } from '../lib/paths';
-import { YOUTUBE_CHANNEL_URL, YOUTUBE_RELEASES } from '../data/youtube-releases';
 import { SOUNDCLOUD_PROFILES } from '../data/soundcloud-profiles';
+import merged from '../data/merged-tracks.json';
 
 const base = import.meta.env.BASE_URL;
 
-const releases = YOUTUBE_RELEASES.map((r) => ({
-	...r,
-	watchUrl: `https://www.youtube.com/watch?v=${r.videoId}`,
-	thumbUrl: `https://i.ytimg.com/vi/${r.videoId}/mqdefault.jpg`,
-	dateLabel: new Date(r.published).toLocaleDateString('en-US', {
+const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@spencerprod4939';
+
+type MergedTrack = {
+	id: string;
+	platform: string;
+	title: string;
+	publishedAt: string;
+	thumbnailUrl: string;
+	watchUrl: string;
+	embedUrl: string;
+};
+
+const rawTracks = merged.tracks as MergedTrack[];
+/** Oldest → newest for initial paint + “Oldest first” default */
+const tracksAsc = [...rawTracks].sort(
+	(a, b) => new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime(),
+);
+
+function formatDate(iso: string) {
+	return new Date(iso).toLocaleDateString('en-US', {
 		year: 'numeric',
 		month: 'short',
 		day: 'numeric',
 		timeZone: 'UTC',
-	}),
-}));
+	});
+}
+
+function platformLabel(p: string) {
+	return p === 'youtube' ? 'YouTube' : p === 'soundcloud' ? 'SoundCloud' : p;
+}
 ---
 
 <Layout title="My Music" description="Songs I made in my bedroom at weird hours. — Spencerprod.">
@@ -24,15 +43,34 @@ const releases = YOUTUBE_RELEASES.map((r) => ({
 	<h1>My Music</h1>
 	<p class="section-lede">Songs I made in my bedroom at weird hours.</p>
 
+	<p class="music-meta">
+		<strong>{tracksAsc.length}</strong> tracks
+		<span class="music-meta-sep" aria-hidden="true">·</span>
+		<span class="music-meta-sub">
+			Combined from YouTube and SoundCloud. Data from build ({merged.source}); refreshed{' '}
+			<time datetime={merged.fetchedAt}>{formatDate(merged.fetchedAt)}</time> (UTC).
+		</span>
+	</p>
+
+	<div class="music-sort" role="group" aria-label="Sort order">
+		<span class="music-sort-label">Order:</span>
+		<button type="button" class="music-sort-btn is-active" data-music-sort="asc" aria-pressed="true">
+			Oldest first
+		</button>
+		<button type="button" class="music-sort-btn" data-music-sort="desc" aria-pressed="false">
+			Newest first
+		</button>
+	</div>
+
 	<p class="music-channel-cta">
 		<a class="music-channel-btn" href={YOUTUBE_CHANNEL_URL} target="_blank" rel="noopener noreferrer">
 			Spencer Prod on YouTube
 		</a>
-		<span class="music-channel-hint">All uploads, newest first — @spencerprod4939</span>
+		<span class="music-channel-hint">@spencerprod4939</span>
 	</p>
 
-	<h2 class="ph-block-title">SoundCloud</h2>
-	<p class="music-sc-intro">More tracks and sketches live across these profiles:</p>
+	<h2 class="ph-block-title">SoundCloud profiles</h2>
+	<p class="music-sc-intro">Additional releases across these accounts (included in the list above when API keys are set at build time):</p>
 	<ul class="music-sc-list">
 		{
 			SOUNDCLOUD_PROFILES.map(({ href, label }) => (
@@ -45,46 +83,177 @@ const releases = YOUTUBE_RELEASES.map((r) => ({
 		}
 	</ul>
 
+	<h2 class="ph-block-title">All releases</h2>
 	<p class="music-feed-note">
-		Below is every beat currently listed in YouTube’s public feed for the channel, in <strong>chronological order</strong> (oldest
-		to newest). The RSS feed only surfaces the <strong>15 most recent</strong> videos; older posts still live on the channel page
-		above.
+		<strong>Play here</strong> expands an inline player (loads third-party embed). <strong>Open</strong> goes to YouTube or SoundCloud.
+		Builds merge public YouTube + SoundCloud data without API keys (see <code>scripts/fetch-music.mjs</code>).
+		Optional <code>YOUTUBE_API_KEY</code> / <code>SOUNDCLOUD_CLIENT_ID</code> in Actions or <code>.env</code> use the official APIs instead — <code>nebulous-nadir/.env.example</code>.
 	</p>
 
-	<h2 class="ph-block-title">YouTube uploads</h2>
-	<ol class="music-yt-list">
+	<ul class="music-track-list" id="music-track-list">
 		{
-			releases.map((r) => (
-				<li class="music-yt-item">
-					<a class="music-yt-thumb-link" href={r.watchUrl} target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
-						<img src={r.thumbUrl} alt="" width="320" height="180" loading="lazy" decoding="async" class="music-yt-thumb" />
+			tracksAsc.map((t) => (
+				<li
+					class="music-track"
+					data-published={String(new Date(t.publishedAt).getTime())}
+					data-platform={t.platform}
+				>
+					<a
+						class:list={['music-thumb-link', { 'music-thumb-link--empty': !t.thumbnailUrl }]}
+						href={t.watchUrl}
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-hidden="true"
+						tabindex={-1}
+					>
+						{t.thumbnailUrl ? (
+							<img src={t.thumbnailUrl} alt="" width="320" height="180" loading="lazy" decoding="async" class="music-thumb" />
+						) : (
+							<span class="music-thumb-placeholder" aria-hidden="true" />
+						)}
 					</a>
-					<div class="music-yt-body">
-						<p class="music-yt-date">{r.dateLabel}</p>
-						<h3 class="music-yt-title">
-							<a href={r.watchUrl} target="_blank" rel="noopener noreferrer">
-								{r.title}
+					<div class="music-track-body">
+						<p class="music-track-meta">
+							<span class:list={['music-badge', `music-badge--${t.platform}`]}>{platformLabel(t.platform)}</span>
+							<span class="music-track-date">{formatDate(t.publishedAt)}</span>
+						</p>
+						<h3 class="music-track-title">
+							<a href={t.watchUrl} target="_blank" rel="noopener noreferrer">
+								{t.title}
 							</a>
 						</h3>
-						<p class="music-yt-watch">
-							<a href={r.watchUrl} target="_blank" rel="noopener noreferrer">
-								Watch on YouTube →
+						<p class="music-track-open">
+							<a href={t.watchUrl} target="_blank" rel="noopener noreferrer">
+								{t.platform === 'youtube' ? 'Open on YouTube →' : 'Open on SoundCloud →'}
 							</a>
 						</p>
+						<details class="music-details">
+							<summary class="music-details-summary">Play here</summary>
+							<div class="music-embed-wrap">
+								{t.platform === 'youtube' ? (
+									<iframe
+										src={t.embedUrl}
+										title={t.title}
+										width="560"
+										height="315"
+										loading="lazy"
+										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+										referrerpolicy="strict-origin-when-cross-origin"
+										allowfullscreen
+										class="music-embed"
+									/>
+								) : (
+									<iframe
+										src={t.embedUrl}
+										title={t.title}
+										width="100%"
+										height="166"
+										loading="lazy"
+										allow="autoplay"
+										class="music-embed music-embed--sc"
+									/>
+								)}
+							</div>
+						</details>
 					</div>
 				</li>
 			))
 		}
-	</ol>
+	</ul>
 
 	<p class="music-blog-footer">
 		For record opinions and hot takes — <a href={sectionUrl(base, 'music/blog')}>Music blog</a>.
 	</p>
 </Layout>
 
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const ul = document.getElementById('music-track-list');
+		if (!ul) return;
+		const buttons = document.querySelectorAll('[data-music-sort]');
+
+		function sort(order) {
+			const items = Array.from(ul.querySelectorAll('[data-published]'));
+			items.sort((a, b) => {
+				const ta = Number(a.getAttribute('data-published'));
+				const tb = Number(b.getAttribute('data-published'));
+				return order === 'asc' ? ta - tb : tb - ta;
+			});
+			for (const el of items) ul.appendChild(el);
+			for (const btn of buttons) {
+				const active = btn.getAttribute('data-music-sort') === order;
+				btn.classList.toggle('is-active', active);
+				btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+			}
+		}
+
+		for (const btn of buttons) {
+			btn.addEventListener('click', () => sort(btn.getAttribute('data-music-sort') || 'asc'));
+		}
+	});
+</script>
+
 <style>
+	.music-meta {
+		font-size: 1rem;
+		margin: 0 0 1rem;
+		line-height: 1.5;
+	}
+
+	.music-meta-sep {
+		margin: 0 0.35rem;
+		opacity: 0.45;
+	}
+
+	.music-meta-sub {
+		font-size: 0.875rem;
+		opacity: 0.85;
+	}
+
+	.music-sort {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5rem 0.75rem;
+		margin: 0 0 1.5rem;
+	}
+
+	.music-sort-label {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: #4a4a4a;
+	}
+
+	.music-sort-btn {
+		font-family: var(--font-body);
+		font-size: 0.875rem;
+		font-weight: 600;
+		padding: 0.4rem 0.85rem;
+		border-radius: 8px;
+		border: 2px solid var(--border);
+		background: var(--bg);
+		color: var(--text);
+		cursor: pointer;
+		transition:
+			background 0.15s ease,
+			border-color 0.15s ease;
+	}
+
+	.music-sort-btn:hover {
+		border-color: #000;
+		background: var(--surface);
+	}
+
+	.music-sort-btn.is-active {
+		background: var(--accent);
+		color: var(--bg);
+		border-color: var(--accent);
+	}
+
 	.music-channel-cta {
-		margin: 1.75rem 0 1rem;
+		margin: 0 0 1.5rem;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
@@ -145,35 +314,33 @@ const releases = YOUTUBE_RELEASES.map((r) => ({
 		line-height: 1.55;
 		color: var(--text);
 		opacity: 0.9;
-		margin: 0 0 2rem;
+		margin: 0 0 1.5rem;
 		max-width: 48rem;
 	}
 
-	.music-yt-list {
+	.music-track-list {
 		list-style: none;
 		margin: 0;
 		padding: 0;
-		counter-reset: yt;
 	}
 
-	.music-yt-item {
+	.music-track {
 		display: flex;
 		gap: 1.25rem;
 		align-items: flex-start;
 		margin-bottom: 2rem;
 		padding-bottom: 2rem;
 		border-bottom: 1px solid var(--border);
-		counter-increment: yt;
 		flex-wrap: wrap;
 	}
 
-	.music-yt-item:last-child {
+	.music-track:last-child {
 		border-bottom: none;
 		margin-bottom: 0;
 		padding-bottom: 0;
 	}
 
-	.music-yt-thumb-link {
+	.music-thumb-link {
 		flex: 0 0 auto;
 		line-height: 0;
 		border-radius: 8px;
@@ -181,7 +348,16 @@ const releases = YOUTUBE_RELEASES.map((r) => ({
 		border: 1px solid var(--border);
 	}
 
-	.music-yt-thumb {
+	.music-thumb-link--empty {
+		width: 160px;
+		aspect-ratio: 16 / 9;
+		background: var(--surface);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.music-thumb {
 		display: block;
 		width: 160px;
 		height: auto;
@@ -189,52 +365,120 @@ const releases = YOUTUBE_RELEASES.map((r) => ({
 		object-fit: cover;
 	}
 
-	.music-yt-body {
-		flex: 1;
-		min-width: min(100%, 12rem);
+	.music-thumb-placeholder {
+		width: 48px;
+		height: 48px;
+		border-radius: 50%;
+		background: linear-gradient(135deg, #ddd 0%, #f5f5f5 100%);
 	}
 
-	.music-yt-date {
-		font-family: var(--font-mono);
-		font-size: 0.6875rem;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: #4a4a4a;
+	.music-track-body {
+		flex: 1;
+		min-width: min(100%, 14rem);
+	}
+
+	.music-track-meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5rem 0.75rem;
 		margin: 0 0 0.35rem;
 	}
 
-	.music-yt-date::before {
-		content: counter(yt) '. ';
+	.music-badge {
+		font-family: var(--font-mono);
+		font-size: 0.625rem;
 		font-weight: 600;
-		color: var(--text);
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		padding: 0.2rem 0.45rem;
+		border-radius: 4px;
+		border: 1px solid var(--border);
 	}
 
-	.music-yt-title {
+	.music-badge--youtube {
+		background: #ff0000;
+		color: #fff;
+		border-color: #cc0000;
+	}
+
+	.music-badge--soundcloud {
+		background: #ff5500;
+		color: #fff;
+		border-color: #e64d00;
+	}
+
+	.music-track-date {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: #4a4a4a;
+	}
+
+	.music-track-title {
 		font-family: var(--font-display);
 		font-size: 1.1rem;
 		font-weight: 700;
-		margin: 0 0 0.5rem;
+		margin: 0 0 0.4rem;
 		letter-spacing: -0.02em;
 		line-height: 1.25;
 	}
 
-	.music-yt-title a {
+	.music-track-title a {
 		color: var(--text);
 		text-decoration: none;
 	}
 
-	.music-yt-title a:hover {
+	.music-track-title a:hover {
 		text-decoration: underline;
 		text-underline-offset: 3px;
 	}
 
-	.music-yt-watch {
-		margin: 0;
+	.music-track-open {
+		margin: 0 0 0.65rem;
 		font-size: 0.875rem;
 	}
 
-	.music-yt-watch a {
+	.music-track-open a {
 		font-weight: 600;
+	}
+
+	.music-details {
+		margin-top: 0.25rem;
+		max-width: 560px;
+	}
+
+	.music-details-summary {
+		font-size: 0.875rem;
+		font-weight: 600;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	.music-embed-wrap {
+		margin-top: 0.75rem;
+		border-radius: 8px;
+		overflow: hidden;
+		border: 1px solid var(--border);
+		background: #000;
+	}
+
+	.music-embed {
+		display: block;
+		width: 100%;
+		max-width: 560px;
+		height: auto;
+		min-height: 200px;
+		aspect-ratio: 16 / 9;
+		border: 0;
+	}
+
+	.music-embed--sc {
+		aspect-ratio: auto;
+		min-height: 166px;
+		height: 166px;
+		max-width: 100%;
 	}
 
 	.music-blog-footer {
@@ -245,16 +489,17 @@ const releases = YOUTUBE_RELEASES.map((r) => ({
 	}
 
 	@media (max-width: 520px) {
-		.music-yt-item {
+		.music-track {
 			flex-direction: column;
 		}
 
-		.music-yt-thumb-link {
+		.music-thumb-link,
+		.music-thumb-link--empty {
 			width: 100%;
 			max-width: 280px;
 		}
 
-		.music-yt-thumb {
+		.music-thumb {
 			width: 100%;
 		}
 	}
