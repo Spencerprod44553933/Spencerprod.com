@@ -1,15 +1,16 @@
 ---
+import LangToggle from './LangToggle.astro';
 import { sectionUrl } from '../lib/paths';
 
 const base = import.meta.env.BASE_URL;
 
 const links = [
-	{ href: sectionUrl(base, ''), label: 'Home' },
-	{ href: sectionUrl(base, 'cyber'), label: 'Cyber' },
-	{ href: sectionUrl(base, 'music'), label: 'My Music' },
-	{ href: sectionUrl(base, 'music/blog'), label: 'Music blog' },
-	{ href: sectionUrl(base, 'blog'), label: 'Sports blog' },
-	{ href: sectionUrl(base, 'photography'), label: 'Photography' },
+	{ href: sectionUrl(base, ''), labelEn: 'Home', labelEs: 'Inicio' },
+	{ href: sectionUrl(base, 'cyber'), labelEn: 'Cyber', labelEs: 'Cyber' },
+	{ href: sectionUrl(base, 'music'), labelEn: 'My Music', labelEs: 'Mi música' },
+	{ href: sectionUrl(base, 'music/blog'), labelEn: 'Music blog', labelEs: 'Blog de música' },
+	{ href: sectionUrl(base, 'blog'), labelEn: 'Sports blog', labelEs: 'Blog deportivo' },
+	{ href: sectionUrl(base, 'photography'), labelEn: 'Photography', labelEs: 'Fotografía' },
 ] as const;
 
 function normalizePath(pathname: string) {
@@ -40,14 +41,18 @@ function isActive(href: string) {
 ---
 
 <header class="site-header">
-	<a class="brand" href={base}>Spencerprod</a>
+	<div class="site-header-top">
+		<a class="brand" href={base}>Spencerprod</a>
+		<LangToggle />
+	</div>
 	<nav class="tabs" aria-label="Main">
 		<ul>
 			{
-				links.map(({ href, label }) => (
+				links.map(({ href, labelEn, labelEs }) => (
 					<li>
 						<a href={href} class:list={['tab', { active: isActive(href) }]} aria-current={isActive(href) ? 'page' : undefined}>
-							{label}
+							<span class="i18n-en">{labelEn}</span>
+							<span class="i18n-es">{labelEs}</span>
 						</a>
 					</li>
 				))
@@ -57,6 +62,15 @@ function isActive(href: string) {
 </header>
 
 <style>
+	.site-header-top {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem 1.25rem;
+		width: 100%;
+	}
+
 	.site-header {
 		display: flex;
 		flex-wrap: wrap;
@@ -127,6 +141,11 @@ function isActive(href: string) {
 
 	@media (max-width: 520px) {
 		.site-header {
+			flex-direction: column;
+			align-items: stretch;
+		}
+
+		.site-header-top {
 			flex-direction: column;
 			align-items: stretch;
 		}

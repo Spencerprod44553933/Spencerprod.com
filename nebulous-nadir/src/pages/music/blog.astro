@@ -1,293 +1,232 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { sectionUrl } from '../../lib/paths';
+import {
+	pillLabels,
+	reviewIntro,
+	reviewPullquote,
+	reviewTracks,
+	reviewUi,
+	reviewVerdict,
+	type ReviewTrack,
+} from '../../data/dinastia-review-i18n';
 
 const base = import.meta.env.BASE_URL;
+const standardTracks = reviewTracks.filter((t) => t.tier !== 'deluxe');
+const deluxeTracks = reviewTracks.filter((t) => t.tier === 'deluxe');
+const splitAt = standardTracks.findIndex((t) => t.name === 'Malibu');
+const standardBeforePull = splitAt === -1 ? standardTracks : standardTracks.slice(0, splitAt);
+const standardAfterPull = splitAt === -1 ? [] : standardTracks.slice(splitAt);
+
+function tierClass(tier: ReviewTrack['tier']): string {
+	return `mb-track--${tier}`;
+}
+
+function pillClass(pill: NonNullable<ReviewTrack['pill']>): string {
+	if (pill === 'standout') return 'mb-pill--standout';
+	if (pill === 'deep') return 'mb-pill--deep';
+	if (pill === 'favorite') return 'mb-pill--favorite';
+	return 'mb-pill--deluxe';
+}
 ---
 
-<Layout
-	title="Dinastía — album review · Music blog"
-	description="Album review: Dinastía by Peso Pluma and Tito Doble P. — Spencerprod."
->
+<Layout title={reviewUi.en.pageTitle} description={reviewUi.en.description}>
 	<link
 		slot="head-extra"
 		rel="stylesheet"
 		href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600;1,700&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400&display=swap"
 	/>
 
-	<p class="section-eyebrow">Music blog</p>
-	<h1 class="mb-page-title">Music blog</h1>
-	<p class="section-lede">Hot takes. Correct takes. Mine.</p>
+	<script
+		is:inline
+		define:vars={{
+			titleEn: reviewUi.en.pageTitle,
+			titleEs: reviewUi.es.pageTitle,
+			descEn: reviewUi.en.description,
+			descEs: reviewUi.es.description,
+		}}
+	>
+		(function () {
+			var suffix = ' · Spencerprod';
+			function setDocLang(lang) {
+				document.title = (lang === 'es' ? titleEs : titleEn) + suffix;
+				var m = document.querySelector('meta[name="description"]');
+				if (m) m.setAttribute('content', lang === 'es' ? descEs : descEn);
+			}
+			window.addEventListener('site-lang-change', function (e) {
+				if (e.detail && e.detail.lang) setDocLang(e.detail.lang);
+			});
+			setDocLang(document.documentElement.getAttribute('data-site-lang') || 'en');
+		})();
+	</script>
+
+	<p class="section-eyebrow">
+		<span class="i18n-en">{reviewUi.en.eyebrow}</span>
+		<span class="i18n-es">{reviewUi.es.eyebrow}</span>
+	</p>
+	<h1 class="mb-page-title">
+		<span class="i18n-en">{reviewUi.en.h1}</span>
+		<span class="i18n-es">{reviewUi.es.h1}</span>
+	</h1>
+	<p class="section-lede">
+		<span class="i18n-en">{reviewUi.en.lede}</span>
+		<span class="i18n-es">{reviewUi.es.lede}</span>
+	</p>
 
 	<article class="mb-review" aria-label="Album review: Dinastía">
-		<p class="mb-meta">April 1, 2026 · Album review</p>
+		<p class="mb-meta">
+			<span class="i18n-en">{reviewUi.en.meta}</span>
+			<span class="i18n-es">{reviewUi.es.meta}</span>
+		</p>
 
 		<header class="mb-hero">
-			<p class="mb-kicker">Album review</p>
+			<p class="mb-kicker">
+				<span class="i18n-en">{reviewUi.en.kicker}</span>
+				<span class="i18n-es">{reviewUi.es.kicker}</span>
+			</p>
 			<h2 class="mb-album-title">Dinastía</h2>
 			<p class="mb-artists">Peso Pluma &amp; Tito Doble P</p>
 			<div class="mb-rating-row">
-				<span class="mb-stars" aria-label="5 out of 5 stars">★★★★★</span>
-				<span class="mb-essential-label">Essential listening</span>
+				<span class="mb-stars">
+					<span class="i18n-en" aria-label={reviewUi.en.starsAria}>★★★★★</span>
+					<span class="i18n-es" aria-label={reviewUi.es.starsAria}>★★★★★</span>
+				</span>
+				<span class="mb-essential-label">
+					<span class="i18n-en">{reviewUi.en.essential}</span>
+					<span class="i18n-es">{reviewUi.es.essential}</span>
+				</span>
 			</div>
 		</header>
 
 		<div class="mb-prose">
 			<p>
-				There are albums that entertain, and then there are albums that define a moment. Dinastía falls firmly into the
-				latter category. From the very first notes, Peso Pluma makes his intentions clear: this is a statement record, one
-				that sets a tone and refuses to let go. The intro does exactly what a great opener should — it signals that
-				something special is about to unfold.
+				<span class="i18n-en">{reviewIntro.en[0]}</span>
+				<span class="i18n-es">{reviewIntro.es[0]}</span>
 			</p>
 			<p>
-				Spanning a rich standard tracklist and a generous deluxe edition, Dinastía is a showcase of the range and
-				confidence that has made Peso Pluma one of the most compelling voices in regional Mexican music. Not every track
-				reaches the same heights, but the peaks are extraordinary.
+				<span class="i18n-en">{reviewIntro.en[1]}</span>
+				<span class="i18n-es">{reviewIntro.es[1]}</span>
 			</p>
 		</div>
 
-		<h3 class="mb-section-head">The standard cuts</h3>
+		<h3 class="mb-section-head">
+			<span class="i18n-en">{reviewUi.en.sectionStandard}</span>
+			<span class="i18n-es">{reviewUi.es.sectionStandard}</span>
+		</h3>
 
-		<section class="mb-track mb-track--standout">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">Dopamina</h4>
-				<span class="mb-pill mb-pill--standout">Standout</span>
-			</div>
-			<p>
-				A crowd favorite in every sense of the phrase, &ldquo;Dopamina&rdquo; is the kind of track that earns its reputation
-				night after night on stage — and fittingly serves as the album&apos;s concert closer. It hits with the immediacy of
-				a song that was designed to be heard at full volume with a crowd around you.
-			</p>
-		</section>
-
-		<section class="mb-track mb-track--deep">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">Ni Pedo</h4>
-				<span class="mb-pill mb-pill--deep">Deep cut</span>
-			</div>
-			<p>
-				A solid song in its own right, &ldquo;Ni Pedo&rdquo; is the type of track you return to occasionally rather than
-				compulsively. It suffers less from any quality deficit and more from the company it keeps — surrounded by some of the
-				strongest material on the project, it can feel underserved by the spotlight.
-			</p>
-		</section>
-
-		<section class="mb-track mb-track--deep">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">Putielegante</h4>
-				<span class="mb-pill mb-pill--deep">Deep cut</span>
-			</div>
-			<p>
-				Much the same can be said for &ldquo;Putielegante&rdquo; — a track that, on a lesser album, would stand out with
-				ease. Here it gets swallowed by the sheer ambition of what surrounds it. The record is simply too good for certain
-				songs to breathe as freely as they might deserve.
-			</p>
-		</section>
-
-		<section class="mb-track mb-track--standout">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">7-3</h4>
-				<span class="mb-pill mb-pill--standout">Standout</span>
-			</div>
-			<p>
-				From the moment those opening horns arrive, &ldquo;7-3&rdquo; announces itself as something special. The energy
-				built in the introduction never dissipates — it carries through the entire runtime with a momentum that feels both
-				deliberate and effortless. One of the album&apos;s most viscerally satisfying cuts.
-			</p>
-		</section>
-
-		<section class="mb-track mb-track--favorite">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">Billete</h4>
-				<span class="mb-pill mb-pill--favorite">Personal favorite</span>
-			</div>
-			<p>
-				Criminally underappreciated by the general conversation around this album, &ldquo;Billete&rdquo; is, in this
-				listener&apos;s estimation, an absolute hidden gem. It carries an unmistakable flex energy — the kind of track that
-				sounds deceptively cool at home but transforms into something otherworldly in a live setting. The crowd energy it
-				generates is exactly what this type of song was built for.
-			</p>
-		</section>
-
-		<section class="mb-track mb-track--standout">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">Daño</h4>
-				<span class="mb-pill mb-pill--standout">Standout</span>
-			</div>
-			<p>
-				A genuine emotional centerpiece. Peso&apos;s vocal performance on &ldquo;Daño&rdquo; is among the most affecting on
-				the entire record — there is a tenderness in the delivery that reaches places most tracks in this genre do not even
-				attempt. Beautiful, unhurried, and deeply moving.
-			</p>
-		</section>
-
-		<section class="mb-track mb-track--muted">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">Trucha</h4>
-			</div>
-			<p>
-				Fast, aggressive, and relentless — &ldquo;Trucha&rdquo; pulls no punches. The collaboration between Tito Doble P and
-				Peso is immediate and hooky; you are locked in from the first bar. It&apos;s the kind of track that demands your
-				full attention and rewards it.
-			</p>
-		</section>
-
-		<section class="mb-track mb-track--muted">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">Morras II</h4>
-			</div>
-			<p>
-				As a sequel to &ldquo;Las Morras&rdquo; from <em class="mb-em">Genesis</em> — an album that deserves its own conversation as
-				perhaps the definitive record of its genre — this track carries significant expectations. On first listen it
-				reads as understated, and repeated plays soften but do not entirely dispel that impression. It is far from bad, but
-				it is not the kind of song you reach for instinctively.
-			</p>
-		</section>
-
-		<section class="mb-track mb-track--standout">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">Mezcal</h4>
-				<span class="mb-pill mb-pill--standout">Standout</span>
-			</div>
-			<p>
-				The opening vocals on &ldquo;Mezcal&rdquo; are an immediate signal that something different is at work here. It
-				offers a genuine breath of fresh air — distinct enough to feel like a detour, cohesive enough to feel essential. The
-				thematic continuity with the rest of the album is never broken; it simply offers a new angle on familiar territory.
-			</p>
-		</section>
+		{
+			standardBeforePull.map((track) => (
+				<section class:list={['mb-track', tierClass(track.tier)]}>
+					<div class="mb-track-head">
+						<h4 class="mb-track-name">{track.name}</h4>
+						{track.pill ? (
+							<span class:list={['mb-pill', pillClass(track.pill)]}>
+								<span class="i18n-en">{pillLabels.en[track.pill]}</span>
+								<span class="i18n-es">{pillLabels.es[track.pill]}</span>
+							</span>
+						) : null}
+					</div>
+					{track.richText ? (
+						<p>
+							<span class="i18n-en" set:html={track.en} />
+							<span class="i18n-es" set:html={track.es} />
+						</p>
+					) : (
+						<p>
+							<span class="i18n-en">{track.en}</span>
+							<span class="i18n-es">{track.es}</span>
+						</p>
+					)}
+				</section>
+			))
+		}
 
 		<blockquote class="mb-pullquote">
-			<p>When Malibu ended, there was only one instinct: play it again.</p>
+			<p>
+				<span class="i18n-en">{reviewPullquote.en}</span>
+				<span class="i18n-es">{reviewPullquote.es}</span>
+			</p>
 		</blockquote>
 
-		<section class="mb-track mb-track--favorite">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">Malibu</h4>
-				<span class="mb-pill mb-pill--favorite">Personal favorite</span>
-			</div>
-			<p>
-				Perhaps the single greatest surprise on the album. &ldquo;Malibu&rdquo; catches you from the very first moment and
-				refuses to release its grip. It holds a rare quality — the ability to feel both complete and insufficient at the
-				same time, leaving you wanting to start it again the second it ends. A legitimate top-tier moment on an album full
-				of them.
-			</p>
-		</section>
-
-		<section class="mb-track mb-track--muted">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">20&apos;s</h4>
-			</div>
-			<p>
-				Smooth, groovy, and entirely in its lane. &ldquo;20&apos;s&rdquo; is the kind of track that settles into your body
-				before your brain has a chance to process it — head-nodding, unhurried energy that rewards an attentive listen in a
-				quiet room as much as it does anything else.
-			</p>
-		</section>
-
-		<section class="mb-track mb-track--favorite">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">Viejo Lobo</h4>
-				<span class="mb-pill mb-pill--favorite">Personal favorite</span>
-			</div>
-			<p>
-				Like &ldquo;Malibu&rdquo; before it, &ldquo;Viejo Lobo&rdquo; announces its distinctiveness immediately — there is
-				something in its texture that sounds unlike anything else on the record. The collaboration between Peso and Tito here
-				reaches a genuine artistic peak. This is the definition of a masterpiece cut: the kind of song that reminds you why
-				you listen to music in the first place.
-			</p>
-		</section>
-
-		<section class="mb-track mb-track--muted">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">Tú Con Él</h4>
-			</div>
-			<p>
-				One of the album&apos;s most emotionally resonant moments, &ldquo;Tú Con Él&rdquo; is the track that tends to find
-				its audience among those who feel things deeply. On the initial pass through the album it stood as an immediate
-				favorite — and while repeated listens have reshuffled the rankings, placing it just behind &ldquo;Billete,&rdquo;
-				&ldquo;Malibu,&rdquo; &ldquo;7-3,&rdquo; &ldquo;Dopamina,&rdquo; &ldquo;Daño,&rdquo; and &ldquo;Viejo Lobo,&rdquo;
-				it remains a beautifully crafted piece of music that earns its place.
-			</p>
-		</section>
-
-		<section class="mb-track mb-track--muted">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">Bckpckbyz</h4>
-			</div>
-			<p>
-				An anthem for the grind. &ldquo;Bckpckbyz&rdquo; speaks directly to anyone who has come up from nothing and is still
-				in the process of building — it captures that specific feeling of shared ambition, of looking at the people beside you
-				and understanding the road still ahead. This one belongs to those moments with your people.
-			</p>
-		</section>
+		{
+			standardAfterPull.map((track) => (
+				<section class:list={['mb-track', tierClass(track.tier)]}>
+					<div class="mb-track-head">
+						<h4 class="mb-track-name">{track.name}</h4>
+						{track.pill ? (
+							<span class:list={['mb-pill', pillClass(track.pill)]}>
+								<span class="i18n-en">{pillLabels.en[track.pill]}</span>
+								<span class="i18n-es">{pillLabels.es[track.pill]}</span>
+							</span>
+						) : null}
+					</div>
+					{track.richText ? (
+						<p>
+							<span class="i18n-en" set:html={track.en} />
+							<span class="i18n-es" set:html={track.es} />
+						</p>
+					) : (
+						<p>
+							<span class="i18n-en">{track.en}</span>
+							<span class="i18n-es">{track.es}</span>
+						</p>
+					)}
+				</section>
+			))
+		}
 
 		<div class="mb-rule" role="separator">
-			<span class="mb-rule-line" aria-hidden="true"></span>
-			<span class="mb-rule-label">Deluxe edition</span>
-			<span class="mb-rule-line" aria-hidden="true"></span>
+			<span class="mb-rule-line" aria-hidden="true" />
+			<span class="mb-rule-label">
+				<span class="i18n-en">{reviewUi.en.ruleDeluxe}</span>
+				<span class="i18n-es">{reviewUi.es.ruleDeluxe}</span>
+			</span>
+			<span class="mb-rule-line" aria-hidden="true" />
 		</div>
 
-		<section class="mb-track mb-track--deluxe">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">Chiclona</h4>
-				<span class="mb-pill mb-pill--deluxe">Deluxe · Best of the bonus</span>
-			</div>
-			<p>
-				The clear standout of the deluxe additions and, frankly, one of the best songs on the entire expanded project.
-				&ldquo;Chiclona&rdquo; sits comfortably in the same conversation as &ldquo;Dopamina&rdquo; and &ldquo;Billete&rdquo;
-				— an argument for its inclusion on the standard tracklist is not a difficult one to make.
-			</p>
-		</section>
-
-		<section class="mb-track mb-track--deluxe">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">London</h4>
-				<span class="mb-pill mb-pill--deluxe">Deluxe</span>
-			</div>
-			<p>
-				A strong second showing from the bonus material, &ldquo;London&rdquo; holds its own with confidence. It fits the
-				album&apos;s sensibility naturally and leaves you glad it made the cut.
-			</p>
-		</section>
-
-		<section class="mb-track mb-track--deluxe">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">Ganga</h4>
-				<span class="mb-pill mb-pill--deluxe">Deluxe</span>
-			</div>
-			<p>
-				Kinetic, breathless, and impossible to sit still through — &ldquo;Ganga&rdquo; is one of those songs that hijacks
-				your body the moment it starts. Whether you are in a car, a room, or anywhere in between, it moves you. A worthy
-				addition to an already loaded runtime.
-			</p>
-		</section>
-
-		<section class="mb-track mb-track--deluxe">
-			<div class="mb-track-head">
-				<h4 class="mb-track-name">Marianita</h4>
-				<span class="mb-pill mb-pill--deluxe">Deluxe</span>
-			</div>
-			<p>
-				Sharing clear DNA with &ldquo;Ganga,&rdquo; &ldquo;Marianita&rdquo; arrives as an elevated variation on a theme
-				rather than a wholly distinct statement. It does what it sets out to do — but with &ldquo;Ganga&rdquo; already
-				present on the same project, it inevitably reads as the slightly lesser iteration of the same energy. Good, but
-				outpaced by its sibling.
-			</p>
-		</section>
+		{
+			deluxeTracks.map((track) => (
+				<section class:list={['mb-track', tierClass(track.tier)]}>
+					<div class="mb-track-head">
+						<h4 class="mb-track-name">{track.name}</h4>
+						{track.pill ? (
+							<span class:list={['mb-pill', pillClass(track.pill)]}>
+								<span class="i18n-en">{pillLabels.en[track.pill]}</span>
+								<span class="i18n-es">{pillLabels.es[track.pill]}</span>
+							</span>
+						) : null}
+					</div>
+					{track.richText ? (
+						<p>
+							<span class="i18n-en" set:html={track.en} />
+							<span class="i18n-es" set:html={track.es} />
+						</p>
+					) : (
+						<p>
+							<span class="i18n-en">{track.en}</span>
+							<span class="i18n-es">{track.es}</span>
+						</p>
+					)}
+				</section>
+			))
+		}
 
 		<div class="mb-verdict">
-			<p class="mb-verdict-label">Final verdict</p>
+			<p class="mb-verdict-label">
+				<span class="i18n-en">{reviewUi.en.verdictLabel}</span>
+				<span class="i18n-es">{reviewUi.es.verdictLabel}</span>
+			</p>
 			<p class="mb-verdict-text">
-				Dinastía is the work of an artist firing on all cylinders. Tracks like &ldquo;Malibu,&rdquo; &ldquo;Viejo
-				Lobo,&rdquo; &ldquo;7-3,&rdquo; &ldquo;Billete,&rdquo; and &ldquo;Daño&rdquo; are the kinds of songs that remind you
-				what great music feels like — immediate, visceral, and emotionally true. Not every moment lands at the same altitude,
-				but that is the nature of an ambitious full-length record. What Peso Pluma delivers here is something that cements
-				his place at the top of the conversation. Essential listening.
+				<span class="i18n-en">{reviewVerdict.en}</span>
+				<span class="i18n-es">{reviewVerdict.es}</span>
 			</p>
 		</div>
 
 		<p class="mb-back">
-			<a href={sectionUrl(base, 'music')}>← My Music (releases)</a>
+			<a href={sectionUrl(base, 'music')}>
+				<span class="i18n-en">{reviewUi.en.backLink}</span>
+				<span class="i18n-es">{reviewUi.es.backLink}</span>
+			</a>
 		</p>
 	</article>
 </Layout>

@@ -1,5 +1,6 @@
 ---
 import SiteNav from '../components/SiteNav.astro';
+import { SITE_LANG_STORAGE_KEY } from '../lib/lang-preference';
 import '../styles/placeholders.css';
 
 interface Props {
@@ -21,6 +22,22 @@ const ogImage = new URL(`${base}social-card.svg`, site);
 <!doctype html>
 <html lang="en">
 	<head>
+		<script is:inline define:vars={{ storageKey: SITE_LANG_STORAGE_KEY }}>
+			(function () {
+				try {
+					var v = localStorage.getItem(storageKey);
+					if (v === 'es') {
+						document.documentElement.setAttribute('data-site-lang', 'es');
+						document.documentElement.lang = 'es';
+					} else {
+						document.documentElement.setAttribute('data-site-lang', 'en');
+						document.documentElement.lang = 'en';
+					}
+				} catch (e) {
+					document.documentElement.setAttribute('data-site-lang', 'en');
+				}
+			})();
+		</script>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content={description} />
@@ -128,5 +145,10 @@ const ogImage = new URL(`${base}social-card.svg`, site);
 	.section-lede {
 		font-size: 1.125rem;
 		max-width: 42ch;
+	}
+
+	html[data-site-lang='en'] .i18n-es,
+	html[data-site-lang='es'] .i18n-en {
+		display: none !important;
 	}
 </style>

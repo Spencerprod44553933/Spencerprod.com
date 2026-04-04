@@ -1,0 +1,85 @@
+---
+import { SITE_LANG_STORAGE_KEY } from '../lib/lang-preference';
+---
+
+<div class="lang-toggle" role="group" aria-label="Language">
+	<button type="button" class="lang-btn" data-lang="en" aria-pressed="true">EN</button>
+	<button type="button" class="lang-btn" data-lang="es" aria-pressed="false">ES</button>
+</div>
+
+<script is:inline define:vars={{ storageKey: SITE_LANG_STORAGE_KEY }}>
+	(function () {
+		function currentLang() {
+			return document.documentElement.getAttribute('data-site-lang') || 'en';
+		}
+
+		function apply(lang) {
+			if (lang !== 'en' && lang !== 'es') return;
+			document.documentElement.setAttribute('data-site-lang', lang);
+			document.documentElement.lang = lang;
+			try {
+				localStorage.setItem(storageKey, lang);
+			} catch (e) {}
+			window.dispatchEvent(new CustomEvent('site-lang-change', { detail: { lang } }));
+			document.querySelectorAll('.lang-toggle [data-lang]').forEach(function (btn) {
+				var on = btn.getAttribute('data-lang') === lang;
+				btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+			});
+		}
+
+		document.querySelectorAll('.lang-toggle [data-lang]').forEach(function (btn) {
+			btn.addEventListener('click', function () {
+				apply(btn.getAttribute('data-lang'));
+			});
+		});
+
+		var initial = currentLang();
+		document.querySelectorAll('.lang-toggle [data-lang]').forEach(function (btn) {
+			var on = btn.getAttribute('data-lang') === initial;
+			btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+		});
+	})();
+</script>
+
+<style>
+	.lang-toggle {
+		display: inline-flex;
+		align-items: stretch;
+		border-radius: 8px;
+		border: 2px solid var(--border);
+		overflow: hidden;
+		background: var(--bg);
+	}
+
+	.lang-btn {
+		margin: 0;
+		padding: 0.4rem 0.65rem;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		font-weight: 500;
+		letter-spacing: 0.04em;
+		line-height: 1;
+		color: var(--text-muted);
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		transition:
+			color 0.15s ease,
+			background 0.15s ease;
+	}
+
+	.lang-btn:hover {
+		color: var(--text);
+		background: color-mix(in srgb, var(--surface) 80%, var(--bg));
+	}
+
+	.lang-btn[aria-pressed='true'] {
+		color: var(--bg);
+		background: var(--accent);
+	}
+
+	.lang-btn[aria-pressed='true']:hover {
+		color: var(--bg);
+		opacity: 0.92;
+	}
+</style>
