@@ -22,6 +22,9 @@ const OUT = join(__dirname, '../src/data/merged-tracks.json');
 
 const DEFAULT_CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID || 'UCTkRyAgGCPJpbfMfQL3uWUA';
 
+/** Shown when no real release date is available (e.g. player API omitted uploadDate on CI). */
+const FALLBACK_PUBLISHED_ISO = '2020-01-01T00:00:00.000Z';
+
 const YT_UA =
 	'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
 
@@ -191,7 +194,7 @@ async function fetchYoutubeUploads(apiKey, channelId) {
 			if (!vid) continue;
 			const sn = item.snippet;
 			const publishedAt =
-				item.contentDetails?.videoPublishedAt || sn?.publishedAt || new Date().toISOString();
+				item.contentDetails?.videoPublishedAt || sn?.publishedAt || FALLBACK_PUBLISHED_ISO;
 			tracks.push({
 				id: `yt-${vid}`,
 				platform: 'youtube',
@@ -307,7 +310,7 @@ async function fetchYoutubeViaPublicScrape(channelId) {
 	);
 
 	const tracks = videos.map((v, i) => {
-		const publishedAt = dates[i] || new Date(0).toISOString();
+		const publishedAt = dates[i] || FALLBACK_PUBLISHED_ISO;
 		const thumb =
 			v.thumbnailUrl || `https://i.ytimg.com/vi/${v.videoId}/hqdefault.jpg`;
 		return {
@@ -324,7 +327,7 @@ async function fetchYoutubeViaPublicScrape(channelId) {
 	const missingDates = dates.filter((d) => !d).length;
 	if (missingDates)
 		console.warn(
-			`[fetch-music] YouTube scrape: ${missingDates}/${videos.length} player responses missing uploadDate (using epoch).`,
+			`[fetch-music] YouTube scrape: ${missingDates}/${videos.length} player responses missing uploadDate (using ${FALLBACK_PUBLISHED_ISO.slice(0, 4)} fallback).`,
 		);
 
 	return tracks;
@@ -339,6 +342,14 @@ function isSoundCloudCaptchaPayload(data) {
 	);
 }
 
+function soundcloudTrackPublishedAt(t) {
+	const raw = t.display_date || t.release_date || t.created_at;
+	if (!raw) return FALLBACK_PUBLISHED_ISO;
+	const d = new Date(raw);
+	if (Number.isNaN(d.getTime())) return FALLBACK_PUBLISHED_ISO;
+	return d.toISOString();
+}
+
 function soundcloudApiTrackToMerged(t) {
 	if (!t?.id || !t.permalink_url) return null;
 	const art = t.artwork_url || t.user?.avatar_url || '';
@@ -348,9 +359,7 @@ function soundcloudApiTrackToMerged(t) {
 		id: `sc-${t.id}`,
 		platform: 'soundcloud',
 		title: t.title || 'Untitled',
-		publishedAt: new Date(
-			t.display_date || t.release_date || t.created_at || Date.now(),
-		).toISOString(),
+		publishedAt: soundcloudTrackPublishedAt(t),
 		thumbnailUrl: thumb,
 		watchUrl: t.permalink_url,
 		embedUrl: `https://w.soundcloud.com/player/?url=${enc}&color=%23000000&auto_play=false&hide_related=true`,
@@ -514,6 +523,22 @@ function sortByDateAsc(tracks) {
 	return [...tracks].sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt));
 }
 
+/** Normalize epoch / invalid dates (e.g. older builds) to the 2020 fallback. */
+function applyMissingDateFallback(tracks) {
+	for (const tr of tracks) {
+		const raw = tr.publishedAt;
+		if (raw == null || raw === '') {
+			tr.publishedAt = FALLBACK_PUBLISHED_ISO;
+			continue;
+		}
+		const d = new Date(raw);
+		const t = d.getTime();
+		if (Number.isNaN(t) || d.getUTCFullYear() === 1970) {
+			tr.publishedAt = FALLBACK_PUBLISHED_ISO;
+		}
+	}
+}
+
 async function main() {
 	const ytKey = process.env.YOUTUBE_API_KEY;
 	const scIdEnv = process.env.SOUNDCLOUD_CLIENT_ID;
@@ -566,6 +591,7 @@ async function main() {
 		}
 	}
 
+	applyMissingDateFallback(tracks);
 	tracks = sortByDateAsc(tracks);
 
 	const payload = {
