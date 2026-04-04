@@ -13,6 +13,9 @@ const {
 } = Astro.props;
 const pageTitle = title === 'Spencerprod' ? title : `${title} · Spencerprod`;
 const base = import.meta.env.BASE_URL;
+const site = Astro.site ?? new URL('https://spencerprod.com');
+const canonical = new URL(Astro.url.pathname, site);
+const ogImage = new URL(`${base}social-card.svg`, site);
 ---
 
 <!doctype html>
@@ -21,8 +24,20 @@ const base = import.meta.env.BASE_URL;
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content={description} />
+		<meta name="theme-color" content="#ffffff" />
 		<link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
-		<link rel="icon" href={`${base}favicon.ico`} />
+		<link rel="apple-touch-icon" href={`${base}favicon.svg`} />
+		<link rel="canonical" href={canonical.href} />
+		<meta property="og:title" content={pageTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical.href} />
+		<meta property="og:image" content={ogImage.href} />
+		<meta property="og:image:type" content="image/svg+xml" />
+		<meta property="og:type" content="website" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={pageTitle} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage.href} />
 		<meta name="generator" content={Astro.generator} />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

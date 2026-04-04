@@ -6,10 +6,10 @@ const base = import.meta.env.BASE_URL;
 const links = [
 	{ href: sectionUrl(base, ''), label: 'Home' },
 	{ href: sectionUrl(base, 'cyber'), label: 'Cyber' },
-	{ href: sectionUrl(base, 'music'), label: 'Music' },
+	{ href: sectionUrl(base, 'music'), label: 'My Music' },
 	{ href: sectionUrl(base, 'music/blog'), label: 'Music blog' },
-	{ href: sectionUrl(base, 'blog'), label: 'Blog' },
-	{ href: sectionUrl(base, 'photography'), label: 'Photo' },
+	{ href: sectionUrl(base, 'blog'), label: 'Sports blog' },
+	{ href: sectionUrl(base, 'photography'), label: 'Photography' },
 ] as const;
 
 function normalizePath(pathname: string) {
