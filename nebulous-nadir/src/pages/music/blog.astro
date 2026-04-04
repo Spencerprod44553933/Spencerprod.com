@@ -6,42 +6,592 @@ const base = import.meta.env.BASE_URL;
 ---
 
 <Layout
-	title="Music blog"
-	description="Hot takes. Correct takes. Mine. — Spencerprod."
+	title="Dinastía — album review · Music blog"
+	description="Album review: Dinastía by Peso Pluma and Tito Doble P. — Spencerprod."
 >
+	<link
+		slot="head-extra"
+		rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600;1,700&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400&display=swap"
+	/>
+
 	<p class="section-eyebrow">Music blog</p>
-	<h1>Music blog</h1>
+	<h1 class="mb-page-title">Music blog</h1>
 	<p class="section-lede">Hot takes. Correct takes. Mine.</p>
 
-	<p class="ph-callout">
-		<strong>Placeholder posts below.</strong> Swap in real artists and titles. This section is only opinions on music—not
-		gear or studio how-tos. Jump back to <a href={sectionUrl(base, 'music')}>your own releases</a> anytime.
-	</p>
+	<article class="mb-review" aria-label="Album review: Dinastía">
+		<p class="mb-meta">April 1, 2026 · Album review</p>
 
-	<section aria-label="Sample music posts">
-		<article class="ph-post">
-			<p class="ph-post-meta">March 18, 2026 · Album</p>
-			<h3>[Artist name] — full LP first listen</h3>
+		<header class="mb-hero">
+			<p class="mb-kicker">Album review</p>
+			<h2 class="mb-album-title">Dinastía</h2>
+			<p class="mb-artists">Peso Pluma &amp; Tito Doble P</p>
+			<div class="mb-rating-row">
+				<span class="mb-stars" aria-label="5 out of 5 stars">★★★★★</span>
+				<span class="mb-essential-label">Essential listening</span>
+			</div>
+		</header>
+
+		<div class="mb-prose">
 			<p>
-				Placeholder: what the band does well on this record, the song that won you over, and whether the back half holds
-				up. Rate it or don’t—just say what you felt.
+				There are albums that entertain, and then there are albums that define a moment. Dinastía falls firmly into the
+				latter category. From the very first notes, Peso Pluma makes his intentions clear: this is a statement record, one
+				that sets a tone and refuses to let go. The intro does exactly what a great opener should — it signals that
+				something special is about to unfold.
 			</p>
-		</article>
-		<article class="ph-post">
-			<p class="ph-post-meta">March 11, 2026 · Single</p>
-			<h3>That new single from [band]</h3>
 			<p>
-				Short opinion piece: hook vs. verses, production choices that help or hurt, and if it makes you want the album
-				or leaves you cold.
+				Spanning a rich standard tracklist and a generous deluxe edition, Dinastía is a showcase of the range and
+				confidence that has made Peso Pluma one of the most compelling voices in regional Mexican music. Not every track
+				reaches the same heights, but the peaks are extraordinary.
 			</p>
-		</article>
-		<article class="ph-post">
-			<p class="ph-post-meta">March 3, 2026 · EP</p>
-			<h3>[Artist]’s EP — too short or just right?</h3>
+		</div>
+
+		<h3 class="mb-section-head">The standard cuts</h3>
+
+		<section class="mb-track mb-track--standout">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">Dopamina</h4>
+				<span class="mb-pill mb-pill--standout">Standout</span>
+			</div>
 			<p>
-				Placeholder for a 4–6 track drop: cohesion, standouts, weak spots, and how it compares to their last project if
-				you know it.
+				A crowd favorite in every sense of the phrase, &ldquo;Dopamina&rdquo; is the kind of track that earns its reputation
+				night after night on stage — and fittingly serves as the album&apos;s concert closer. It hits with the immediacy of
+				a song that was designed to be heard at full volume with a crowd around you.
 			</p>
-		</article>
-	</section>
+		</section>
+
+		<section class="mb-track mb-track--deep">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">Ni Pedo</h4>
+				<span class="mb-pill mb-pill--deep">Deep cut</span>
+			</div>
+			<p>
+				A solid song in its own right, &ldquo;Ni Pedo&rdquo; is the type of track you return to occasionally rather than
+				compulsively. It suffers less from any quality deficit and more from the company it keeps — surrounded by some of the
+				strongest material on the project, it can feel underserved by the spotlight.
+			</p>
+		</section>
+
+		<section class="mb-track mb-track--deep">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">Putielegante</h4>
+				<span class="mb-pill mb-pill--deep">Deep cut</span>
+			</div>
+			<p>
+				Much the same can be said for &ldquo;Putielegante&rdquo; — a track that, on a lesser album, would stand out with
+				ease. Here it gets swallowed by the sheer ambition of what surrounds it. The record is simply too good for certain
+				songs to breathe as freely as they might deserve.
+			</p>
+		</section>
+
+		<section class="mb-track mb-track--standout">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">7-3</h4>
+				<span class="mb-pill mb-pill--standout">Standout</span>
+			</div>
+			<p>
+				From the moment those opening horns arrive, &ldquo;7-3&rdquo; announces itself as something special. The energy
+				built in the introduction never dissipates — it carries through the entire runtime with a momentum that feels both
+				deliberate and effortless. One of the album&apos;s most viscerally satisfying cuts.
+			</p>
+		</section>
+
+		<section class="mb-track mb-track--favorite">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">Billete</h4>
+				<span class="mb-pill mb-pill--favorite">Personal favorite</span>
+			</div>
+			<p>
+				Criminally underappreciated by the general conversation around this album, &ldquo;Billete&rdquo; is, in this
+				listener&apos;s estimation, an absolute hidden gem. It carries an unmistakable flex energy — the kind of track that
+				sounds deceptively cool at home but transforms into something otherworldly in a live setting. The crowd energy it
+				generates is exactly what this type of song was built for.
+			</p>
+		</section>
+
+		<section class="mb-track mb-track--standout">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">Daño</h4>
+				<span class="mb-pill mb-pill--standout">Standout</span>
+			</div>
+			<p>
+				A genuine emotional centerpiece. Peso&apos;s vocal performance on &ldquo;Daño&rdquo; is among the most affecting on
+				the entire record — there is a tenderness in the delivery that reaches places most tracks in this genre do not even
+				attempt. Beautiful, unhurried, and deeply moving.
+			</p>
+		</section>
+
+		<section class="mb-track mb-track--muted">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">Trucha</h4>
+			</div>
+			<p>
+				Fast, aggressive, and relentless — &ldquo;Trucha&rdquo; pulls no punches. The collaboration between Tito Doble P and
+				Peso is immediate and hooky; you are locked in from the first bar. It&apos;s the kind of track that demands your
+				full attention and rewards it.
+			</p>
+		</section>
+
+		<section class="mb-track mb-track--muted">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">Morras II</h4>
+			</div>
+			<p>
+				As a sequel to &ldquo;Las Morras&rdquo; from <em class="mb-em">Genesis</em> — an album that deserves its own conversation as
+				perhaps the definitive record of its genre — this track carries significant expectations. On first listen it
+				reads as understated, and repeated plays soften but do not entirely dispel that impression. It is far from bad, but
+				it is not the kind of song you reach for instinctively.
+			</p>
+		</section>
+
+		<section class="mb-track mb-track--standout">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">Mezcal</h4>
+				<span class="mb-pill mb-pill--standout">Standout</span>
+			</div>
+			<p>
+				The opening vocals on &ldquo;Mezcal&rdquo; are an immediate signal that something different is at work here. It
+				offers a genuine breath of fresh air — distinct enough to feel like a detour, cohesive enough to feel essential. The
+				thematic continuity with the rest of the album is never broken; it simply offers a new angle on familiar territory.
+			</p>
+		</section>
+
+		<blockquote class="mb-pullquote">
+			<p>When Malibu ended, there was only one instinct: play it again.</p>
+		</blockquote>
+
+		<section class="mb-track mb-track--favorite">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">Malibu</h4>
+				<span class="mb-pill mb-pill--favorite">Personal favorite</span>
+			</div>
+			<p>
+				Perhaps the single greatest surprise on the album. &ldquo;Malibu&rdquo; catches you from the very first moment and
+				refuses to release its grip. It holds a rare quality — the ability to feel both complete and insufficient at the
+				same time, leaving you wanting to start it again the second it ends. A legitimate top-tier moment on an album full
+				of them.
+			</p>
+		</section>
+
+		<section class="mb-track mb-track--muted">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">20&apos;s</h4>
+			</div>
+			<p>
+				Smooth, groovy, and entirely in its lane. &ldquo;20&apos;s&rdquo; is the kind of track that settles into your body
+				before your brain has a chance to process it — head-nodding, unhurried energy that rewards an attentive listen in a
+				quiet room as much as it does anything else.
+			</p>
+		</section>
+
+		<section class="mb-track mb-track--favorite">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">Viejo Lobo</h4>
+				<span class="mb-pill mb-pill--favorite">Personal favorite</span>
+			</div>
+			<p>
+				Like &ldquo;Malibu&rdquo; before it, &ldquo;Viejo Lobo&rdquo; announces its distinctiveness immediately — there is
+				something in its texture that sounds unlike anything else on the record. The collaboration between Peso and Tito here
+				reaches a genuine artistic peak. This is the definition of a masterpiece cut: the kind of song that reminds you why
+				you listen to music in the first place.
+			</p>
+		</section>
+
+		<section class="mb-track mb-track--muted">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">Tú Con Él</h4>
+			</div>
+			<p>
+				One of the album&apos;s most emotionally resonant moments, &ldquo;Tú Con Él&rdquo; is the track that tends to find
+				its audience among those who feel things deeply. On the initial pass through the album it stood as an immediate
+				favorite — and while repeated listens have reshuffled the rankings, placing it just behind &ldquo;Billete,&rdquo;
+				&ldquo;Malibu,&rdquo; &ldquo;7-3,&rdquo; &ldquo;Dopamina,&rdquo; &ldquo;Daño,&rdquo; and &ldquo;Viejo Lobo,&rdquo;
+				it remains a beautifully crafted piece of music that earns its place.
+			</p>
+		</section>
+
+		<section class="mb-track mb-track--muted">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">Bckpckbyz</h4>
+			</div>
+			<p>
+				An anthem for the grind. &ldquo;Bckpckbyz&rdquo; speaks directly to anyone who has come up from nothing and is still
+				in the process of building — it captures that specific feeling of shared ambition, of looking at the people beside you
+				and understanding the road still ahead. This one belongs to those moments with your people.
+			</p>
+		</section>
+
+		<div class="mb-rule" role="separator">
+			<span class="mb-rule-line" aria-hidden="true"></span>
+			<span class="mb-rule-label">Deluxe edition</span>
+			<span class="mb-rule-line" aria-hidden="true"></span>
+		</div>
+
+		<section class="mb-track mb-track--deluxe">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">Chiclona</h4>
+				<span class="mb-pill mb-pill--deluxe">Deluxe · Best of the bonus</span>
+			</div>
+			<p>
+				The clear standout of the deluxe additions and, frankly, one of the best songs on the entire expanded project.
+				&ldquo;Chiclona&rdquo; sits comfortably in the same conversation as &ldquo;Dopamina&rdquo; and &ldquo;Billete&rdquo;
+				— an argument for its inclusion on the standard tracklist is not a difficult one to make.
+			</p>
+		</section>
+
+		<section class="mb-track mb-track--deluxe">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">London</h4>
+				<span class="mb-pill mb-pill--deluxe">Deluxe</span>
+			</div>
+			<p>
+				A strong second showing from the bonus material, &ldquo;London&rdquo; holds its own with confidence. It fits the
+				album&apos;s sensibility naturally and leaves you glad it made the cut.
+			</p>
+		</section>
+
+		<section class="mb-track mb-track--deluxe">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">Ganga</h4>
+				<span class="mb-pill mb-pill--deluxe">Deluxe</span>
+			</div>
+			<p>
+				Kinetic, breathless, and impossible to sit still through — &ldquo;Ganga&rdquo; is one of those songs that hijacks
+				your body the moment it starts. Whether you are in a car, a room, or anywhere in between, it moves you. A worthy
+				addition to an already loaded runtime.
+			</p>
+		</section>
+
+		<section class="mb-track mb-track--deluxe">
+			<div class="mb-track-head">
+				<h4 class="mb-track-name">Marianita</h4>
+				<span class="mb-pill mb-pill--deluxe">Deluxe</span>
+			</div>
+			<p>
+				Sharing clear DNA with &ldquo;Ganga,&rdquo; &ldquo;Marianita&rdquo; arrives as an elevated variation on a theme
+				rather than a wholly distinct statement. It does what it sets out to do — but with &ldquo;Ganga&rdquo; already
+				present on the same project, it inevitably reads as the slightly lesser iteration of the same energy. Good, but
+				outpaced by its sibling.
+			</p>
+		</section>
+
+		<div class="mb-verdict">
+			<p class="mb-verdict-label">Final verdict</p>
+			<p class="mb-verdict-text">
+				Dinastía is the work of an artist firing on all cylinders. Tracks like &ldquo;Malibu,&rdquo; &ldquo;Viejo
+				Lobo,&rdquo; &ldquo;7-3,&rdquo; &ldquo;Billete,&rdquo; and &ldquo;Daño&rdquo; are the kinds of songs that remind you
+				what great music feels like — immediate, visceral, and emotionally true. Not every moment lands at the same altitude,
+				but that is the nature of an ambitious full-length record. What Peso Pluma delivers here is something that cements
+				his place at the top of the conversation. Essential listening.
+			</p>
+		</div>
+
+		<p class="mb-back">
+			<a href={sectionUrl(base, 'music')}>← My Music (releases)</a>
+		</p>
+	</article>
 </Layout>
+
+<style>
+	/* Editorial review: Playfair Display + Source Serif 4; scoped to this page via .mb-review + .mb-page-title */
+	.mb-page-title {
+		font-family: var(--font-display);
+	}
+
+	.mb-review {
+		--mr-playfair: 'Playfair Display', Georgia, 'Times New Roman', serif;
+		--mr-serif: 'Source Serif 4', 'Source Serif Pro', Georgia, serif;
+		--mr-text: var(--text);
+		--mr-muted: color-mix(in srgb, var(--text) 48%, var(--bg));
+		--mr-faint: color-mix(in srgb, var(--text) 22%, var(--bg));
+		--mr-hairline: color-mix(in srgb, var(--text) 32%, transparent);
+		--mr-border-muted: color-mix(in srgb, var(--text) 18%, var(--bg));
+		--mr-border-strong: color-mix(in srgb, var(--text) 72%, var(--bg));
+		--mr-favorite: #9b7fa6;
+		--mr-favorite-dim: color-mix(in srgb, #9b7fa6 18%, var(--bg));
+		--mr-amber: #c17f3a;
+		--mr-amber-surface: color-mix(in srgb, #c17f3a 14%, var(--bg));
+		--mr-pill-standout-bg: var(--surface);
+		--mr-pill-standout-border: color-mix(in srgb, var(--text) 14%, var(--bg));
+		--mr-verdict-fill: color-mix(in srgb, var(--surface) 92%, var(--bg));
+
+		max-width: 38rem;
+		margin-top: 1.25rem;
+		padding-bottom: 3rem;
+		background: transparent;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.mb-review {
+			--mr-verdict-fill: color-mix(in srgb, var(--text) 6%, var(--bg));
+			--mr-pill-standout-bg: color-mix(in srgb, var(--text) 8%, var(--bg));
+			--mr-pill-standout-border: color-mix(in srgb, var(--text) 20%, var(--bg));
+		}
+	}
+
+	.mb-meta {
+		font-family: var(--mr-serif);
+		font-weight: 300;
+		font-size: 0.8125rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--mr-muted);
+		margin: 0 0 1.25rem;
+	}
+
+	.mb-hero {
+		border-top: 2.5px solid var(--mr-text);
+		padding-top: 1.5rem;
+		margin-bottom: 0;
+	}
+
+	.mb-kicker {
+		font-family: var(--mr-playfair);
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--mr-muted);
+		margin: 0 0 0.75rem;
+	}
+
+	.mb-album-title {
+		font-family: var(--mr-playfair);
+		font-size: clamp(2.25rem, 6vw, 3rem);
+		font-weight: 800;
+		letter-spacing: -0.02em;
+		line-height: 1.05;
+		margin: 0 0 0.5rem;
+		color: var(--mr-text);
+	}
+
+	.mb-artists {
+		font-family: var(--mr-playfair);
+		font-size: clamp(1.05rem, 2.5vw, 1.2rem);
+		font-style: italic;
+		font-weight: 400;
+		margin: 0 0 1.25rem;
+		color: var(--mr-muted);
+	}
+
+	.mb-rating-row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.65rem 1rem;
+		padding-bottom: 1.25rem;
+		border-bottom: 0.5px solid var(--mr-hairline);
+		margin-bottom: 1.75rem;
+	}
+
+	.mb-stars {
+		font-family: var(--mr-playfair);
+		font-size: 1.125rem;
+		letter-spacing: 0.12em;
+		line-height: 1;
+		color: var(--mr-text);
+	}
+
+	.mb-essential-label {
+		font-family: var(--mr-serif);
+		font-size: 0.6875rem;
+		font-weight: 300;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--mr-muted);
+	}
+
+	.mb-prose p,
+	.mb-track p,
+	.mb-verdict-text {
+		font-family: var(--mr-serif);
+		font-weight: 300;
+		font-size: 1.0625rem;
+		line-height: 1.72;
+		margin: 0 0 1.15rem;
+		color: var(--mr-text);
+	}
+
+	.mb-em {
+		font-family: var(--mr-playfair);
+		font-style: italic;
+		font-weight: 400;
+	}
+
+	.mb-section-head {
+		font-family: var(--mr-playfair);
+		font-size: 1.35rem;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		margin: 2.5rem 0 1.25rem;
+		color: var(--mr-text);
+	}
+
+	.mb-track {
+		margin-bottom: 1.35rem;
+		padding: 1.1rem 1.15rem 1.1rem 1.25rem;
+		border-left: 2px solid var(--mr-border-muted);
+		background: transparent;
+	}
+
+	.mb-track--muted {
+		border-left-color: var(--mr-border-muted);
+	}
+
+	.mb-track--standout {
+		border-left-color: var(--mr-border-strong);
+	}
+
+	.mb-track--deep {
+		border-left-color: var(--mr-faint);
+	}
+
+	.mb-track--favorite {
+		border-left-color: var(--mr-favorite);
+	}
+
+	.mb-track--deluxe {
+		border-left-color: var(--mr-amber);
+	}
+
+	.mb-track-head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem 0.75rem;
+		margin-bottom: 0.6rem;
+	}
+
+	.mb-track-name {
+		font-family: var(--mr-playfair);
+		font-size: 1.125rem;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		margin: 0;
+		color: var(--mr-text);
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	.mb-pill {
+		font-family: var(--mr-serif);
+		font-size: 0.625rem;
+		font-weight: 400;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		padding: 0.35rem 0.65rem;
+		border-radius: 999px;
+		flex-shrink: 1;
+		min-width: 0;
+		max-width: 13rem;
+		text-align: center;
+		line-height: 1.35;
+		hyphens: auto;
+	}
+
+	.mb-pill--favorite {
+		background: var(--mr-favorite-dim);
+		color: color-mix(in srgb, var(--mr-favorite) 55%, var(--text));
+		border: 1px solid color-mix(in srgb, var(--mr-favorite) 35%, transparent);
+	}
+
+	.mb-pill--standout {
+		background: var(--mr-pill-standout-bg);
+		color: var(--mr-text);
+		border: 1px solid var(--mr-pill-standout-border);
+	}
+
+	.mb-pill--deep {
+		background: transparent;
+		color: var(--mr-muted);
+		border: 1px solid var(--mr-faint);
+		opacity: 0.92;
+	}
+
+	.mb-pill--deluxe {
+		background: var(--mr-amber-surface);
+		color: color-mix(in srgb, var(--mr-amber) 45%, var(--text));
+		border: 1px solid color-mix(in srgb, var(--mr-amber) 40%, transparent);
+	}
+
+	.mb-pullquote {
+		margin: 2.5rem 0;
+		padding: 1.35rem 1rem;
+		text-align: center;
+		border-top: 0.5px solid var(--mr-hairline);
+		border-bottom: 0.5px solid var(--mr-hairline);
+		background: transparent;
+	}
+
+	.mb-pullquote p {
+		font-family: var(--mr-playfair);
+		font-size: 1.25rem;
+		font-style: italic;
+		font-weight: 400;
+		line-height: 1.45;
+		margin: 0;
+		color: var(--mr-text);
+	}
+
+	.mb-rule {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin: 3rem 0 2rem;
+		width: 100%;
+	}
+
+	.mb-rule-line {
+		flex: 1;
+		height: 0.5px;
+		background: var(--mr-hairline);
+		min-width: 1.5rem;
+	}
+
+	.mb-rule-label {
+		font-family: var(--mr-serif);
+		font-size: 0.6875rem;
+		font-weight: 300;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--mr-muted);
+		white-space: nowrap;
+	}
+
+	.mb-verdict {
+		margin-top: 2.75rem;
+		padding: 1.35rem 1.5rem 1.5rem;
+		border-radius: 10px;
+		border: 0.5px solid var(--mr-hairline);
+		background: var(--mr-verdict-fill);
+	}
+
+	.mb-verdict-label {
+		font-family: var(--mr-serif);
+		font-size: 0.6875rem;
+		font-weight: 300;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--mr-muted);
+		margin: 0 0 0.85rem;
+	}
+
+	.mb-verdict-text {
+		margin: 0;
+	}
+
+	.mb-back {
+		margin-top: 2.75rem;
+		padding-top: 1.5rem;
+		border-top: 0.5px solid var(--mr-hairline);
+		font-family: var(--mr-serif);
+		font-weight: 300;
+		font-size: 0.9375rem;
+	}
+
+	.mb-back a {
+		color: var(--text);
+		font-weight: 400;
+	}
+</style>
