@@ -36,7 +36,7 @@ jobs:
       # Project URL (github.io/repo): base_path "/RepoName" → Astro base "/RepoName/".
       # Optional repo Variables → Actions → Variables: PAGES_BASE_PATH, PAGES_SITE_URL
       - name: Install, build, and upload artifact
-        uses: withastro/action@v5.2.0
+        uses: withastro/action@v6.1.0
         with:
           path: nebulous-nadir
           node-version: 22
